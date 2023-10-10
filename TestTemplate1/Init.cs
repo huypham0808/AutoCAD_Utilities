@@ -95,10 +95,50 @@ namespace TestTemplate1
         public void CSSTemplate()
         {
             DocumentCollection docColl = Application.DocumentManager;
-            var ed = AppCad.acEd();
+            var ed = AppCad.acEd(); 
+            var db = AppCad.acDb();
             Document newDoc = docColl.Add(@"D:\HUY\CSS_Template.dwt");
             docColl.MdiActiveDocument = newDoc;
+          
+        }
 
+        [CommandMethod("TESTOBJECTID")] 
+        public void TestObjectID()
+        {
+            var db = AppCad.acDb2();
+            var ed = AppCad.acEd();
+
+            ObjectId layerId = db.LayerTableId;
+
+            using(Transaction trans = db.TransactionManager.StartTransaction())
+            {
+                LayerTable layerTbl = trans.GetObject(layerId, OpenMode.ForRead) as LayerTable; // [Ép kiểu]: ép layerTbl về kiểu LayerTable
+
+                int count = 0;
+                foreach(Object ob in layerTbl)
+                {
+                    count += 1;
+                }
+
+               if(count > 1)
+               {
+                   ed.WriteMessage("Co tat ca " + count + " layers");
+               }
+               else if (count <= 1 && count > 0)
+               {
+                   ed.WriteMessage("Co tat ca " + count + "layer");
+               }
+                trans.Commit();
+            }
+        }
+        [CommandMethod("TESTCREATELAYER")]
+        public void TestCreateLayer()
+        {
+            var db = AppCad.acDb2();
+            var ed = AppCad.acEd();
+
+            AppCad.CreateLayer("CSS_01");
+            AppCad.CreateLayer("CSS_02");
         }
         #endregion
         #region SupportFunction
@@ -120,8 +160,10 @@ namespace TestTemplate1
         public void Initialize()
         {
             //Dung de goi cac phuong thuc khi Open AutoCAD
+            var db = AppCad.acDb();
             var ed = AppCad.acEd();
             AcAp.ShowAlertDialog("Plugin vua duoc load vao");
+
             ed.WriteMessage("Plugin vua duoc load vao");
         }
 
