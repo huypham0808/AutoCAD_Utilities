@@ -97,8 +97,9 @@ namespace TestTemplate1
             DocumentCollection docColl = Application.DocumentManager;
             var ed = AppCad.acEd(); 
             var db = AppCad.acDb();
-            Document newDoc = docColl.Add(@"D:\HUY\CSS_Template.dwt");
+            Document newDoc = docColl.Add(@"S:\@FRP\_SST-ST Alliance\3. CAD template\_Current template\2023-10-03_ST-SST_CAD TEMPLATE.dwt");
             docColl.MdiActiveDocument = newDoc;
+            ed.WriteMessage("Template was loaded successfully!");
           
         }
 
@@ -140,6 +141,140 @@ namespace TestTemplate1
             AppCad.CreateLayer("CSS_01");
             AppCad.CreateLayer("CSS_02");
         }
+
+        [CommandMethod("TESTBLOCKATTRIBUTE")]
+        public void TestBlockAttribute()
+        {
+            var db = AppCad.acDb2();
+            var ed = AppCad.acEd();
+
+            PromptEntityOptions options = new PromptEntityOptions("Select title of drawing");
+
+            options.SetRejectMessage("Please select Title ID");
+            options.AddAllowedClass(typeof(BlockReference), true);
+
+            PromptEntityResult result = ed.GetEntity(options);
+            if(result.Status == PromptStatus.OK)
+            {
+                ObjectId objectID = result.ObjectId;
+                using(Transaction trans = db.TransactionManager.StartTransaction())
+                {
+                    BlockReference blockRef = trans.GetObject(objectID, OpenMode.ForRead) as BlockReference;
+                    BlockTableRecord blockTblRec = trans.GetObject(objectID, OpenMode.ForRead) as BlockTableRecord;
+
+                    foreach(ObjectId attributeID in blockRef.AttributeCollection)
+                    {
+                        AttributeReference attributeRef = trans.GetObject(attributeID, OpenMode.ForRead) as AttributeReference;
+                        string attributeName = attributeRef.Tag;
+                        string attributeValue = attributeRef.TextString;
+
+                        ed.WriteMessage("\nTag: " + attributeName + " & Value: " + attributeValue + "\n");
+                    }
+                    trans.Commit();
+                }
+            }
+
+
+        }
+
+        [CommandMethod("TESTGETDISTANCE")]
+        public void TestGetDistance()
+        {
+            var db = AppCad.acDb2();
+            var ed = AppCad.acEd();
+
+            PromptDistanceOptions option = new PromptDistanceOptions("Chon hoac chon khoang cach");
+            option.AllowArbitraryInput = false;
+            option.AllowNegative = false;
+            option.AllowNone = true;
+            option.AllowZero = false;
+            option.DefaultValue = 1;
+            option.Only2d = true;
+            option.UseDefaultValue = true;
+            option.Keywords.Add("Yes");
+            option.Keywords.Add("No");
+
+
+            PromptDoubleResult result = ed.GetDistance(option);
+            if (result.Status == PromptStatus.Keyword)
+            {
+                ed.WriteMessage("\nKeyword nguoi dung da chon la: " + result.StringResult);
+            } 
+            else
+            {
+                AcAp.ShowAlertDialog("Distance is :" + Math.Round(result.Value, db.Lunits, MidpointRounding.AwayFromZero));
+                ed.WriteMessage("Distance is: " + Math.Round(result.Value, db.Lunits,MidpointRounding.AwayFromZero));
+            }
+        }
+
+        [CommandMethod("TESTGETENTITY")]
+        public void TestGetEntity()
+        {
+            var db = AppCad.acDb2();
+            var ed = AppCad.acEd();
+
+            PromptEntityOptions getEntity = new PromptEntityOptions("\nChon doi tuong");
+   
+            getEntity.AllowNone = true;
+            getEntity.AllowObjectOnLockedLayer = true;
+            getEntity.SetRejectMessage("\nKhong phai duong thang CIRCL: "); //Hien thi warning neu ko phai Line           
+            //Cho phep chon Layer bi khoa
+            getEntity.AddAllowedClass(typeof(Circle), true); //Chi cho phep chon Line
+
+            PromptEntityResult resultEntity = ed.GetEntity(getEntity);
+            if (resultEntity.Status != PromptStatus.OK) return;
+            using (Transaction trans = db.TransactionManager.StartTransaction())
+            {
+                Circle lineOb = trans.GetObject(resultEntity.ObjectId, OpenMode.ForRead) as Circle;
+                ed.WriteMessage("Chieu dai duong Line la: " + lineOb.Area);
+
+                trans.Commit();
+            }
+        }
+        [CommandMethod("TESTSELLECTIONSET")]
+        public void TestSellectionSet()
+        {
+            var db = AppCad.acDb2();
+            var ed = AppCad.acEd();
+
+            PromptSelectionOptions sellectionObj = new PromptSelectionOptions();
+            sellectionObj.AllowDuplicates = false;
+            sellectionObj.MessageForAdding = "\nChon duong thang de do chieu dai: ";
+            sellectionObj.MessageForRemoval = "\nChon duong thang de loai bo: ";
+            sellectionObj.RejectObjectsFromNonCurrentSpace = false;
+            sellectionObj.RejectObjectsOnLockedLayers = true;
+            sellectionObj.RejectPaperspaceViewport = true;
+
+            // Filter theo đối tượng theo Circle
+            TypedValue[] typeValue = new TypedValue[1];
+            typeValue[0] = new TypedValue((int)DxfCode.Start, "CIRCLE");
+           
+            SelectionFilter selFilter = new SelectionFilter(typeValue);
+
+            PromptSelectionResult resultSel = ed.GetSelection(sellectionObj, selFilter);
+            if (resultSel.Status != PromptStatus.OK) return;
+            using(Transaction trans = db.TransactionManager.StartTransaction())
+            {
+                try
+                {
+                    SelectionSet selSet = resultSel.Value;
+                    Circle cirObj;
+                    double totalArea = 0.0;
+                    foreach(SelectedObject selected in selSet)
+                    {
+                        cirObj = trans.GetObject(selected.ObjectId, OpenMode.ForRead) as Circle;
+                        totalArea += cirObj.Area;
+                    }
+                    Application.ShowAlertDialog("\nTong dien tich cac hinh tron la: " + Math.Round(totalArea, db.Luprec,MidpointRounding.AwayFromZero));
+                }
+                catch (Autodesk.AutoCAD.Runtime.Exception ex)
+                {
+                    Application.ShowAlertDialog("Khong the tinh tong Dien tich");
+                }
+                trans.Commit();
+            }
+        }
+
         #endregion
         #region SupportFunction
         public Boolean IsSavedFile()
@@ -162,8 +297,8 @@ namespace TestTemplate1
             //Dung de goi cac phuong thuc khi Open AutoCAD
             var db = AppCad.acDb();
             var ed = AppCad.acEd();
-            AcAp.ShowAlertDialog("Plugin vua duoc load vao");
-
+            //AcAp.ShowAlertDialog("Plugin vua duoc load vao");
+            
             ed.WriteMessage("Plugin vua duoc load vao");
         }
 

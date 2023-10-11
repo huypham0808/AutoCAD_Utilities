@@ -5,3 +5,10 @@ D:\HUY\2.CONG VIEC\5.CODING\1.CODE C SHARP\AUTOCAD API\TestTemplate1\TestTemplat
 D:\HUY\2.CONG VIEC\5.CODING\1.CODE C SHARP\AUTOCAD API\TestTemplate1\TestTemplate1\obj\Debug\TestTemplate1.csproj.CoreCompileInputs.cache
 D:\HUY\2.CONG VIEC\5.CODING\1.CODE C SHARP\AUTOCAD API\TestTemplate1\TestTemplate1\obj\Debug\TestTemplate1.dll
 D:\HUY\2.CONG VIEC\5.CODING\1.CODE C SHARP\AUTOCAD API\TestTemplate1\TestTemplate1\obj\Debug\TestTemplate1.pdb
+D:\4.PERSONAL\5.CODING\16.CadUtility\AutoCAD_Utilities\TestTemplate1\obj\Debug\TestTemplate1.csproj.AssemblyReference.cache
+D:\4.PERSONAL\5.CODING\16.CadUtility\AutoCAD_Utilities\TestTemplate1\obj\Debug\TestTemplate1.csproj.CoreCompileInputs.cache
+D:\4.PERSONAL\5.CODING\16.CadUtility\AutoCAD_Utilities\TestTemplate1\obj\Debug\TestTemplate1.dll
+D:\4.PERSONAL\5.CODING\16.CadUtility\AutoCAD_Utilities\TestTemplate1\obj\Debug\TestTemplate1.pdb
+D:\4.PERSONAL\5.CODING\16.CadUtility\AutoCAD_Utilities\TestTemplate1\bin\Debug\start.scr
+D:\4.PERSONAL\5.CODING\16.CadUtility\AutoCAD_Utilities\TestTemplate1\bin\Debug\TestTemplate1.dll
+D:\4.PERSONAL\5.CODING\16.CadUtility\AutoCAD_Utilities\TestTemplate1\bin\Debug\TestTemplate1.pdb

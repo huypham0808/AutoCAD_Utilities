@@ -24,7 +24,7 @@ namespace TestTemplate1
         {
             return AcAp.DocumentManager.MdiActiveDocument.Database;
         }
-        //Lay Datbase Cach 2ifdf
+        //Lay Datbase Cach 2
         public static Database acDb2()
         {
             return HostApplicationServices.WorkingDatabase;
