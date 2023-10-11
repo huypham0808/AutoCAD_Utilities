@@ -12,3 +12,8 @@ D:\4.PERSONAL\5.CODING\16.CadUtility\AutoCAD_Utilities\TestTemplate1\obj\Debug\T
 D:\4.PERSONAL\5.CODING\16.CadUtility\AutoCAD_Utilities\TestTemplate1\bin\Debug\start.scr
 D:\4.PERSONAL\5.CODING\16.CadUtility\AutoCAD_Utilities\TestTemplate1\bin\Debug\TestTemplate1.dll
 D:\4.PERSONAL\5.CODING\16.CadUtility\AutoCAD_Utilities\TestTemplate1\bin\Debug\TestTemplate1.pdb
+D:\HUY\2.CONG VIEC\5.CODING\1.CODE C SHARP\AUTOCAD API\TestTemplate1\TestTemplate1\obj\Debug\View\LayerList.g.cs
+D:\HUY\2.CONG VIEC\5.CODING\1.CODE C SHARP\AUTOCAD API\TestTemplate1\TestTemplate1\obj\Debug\TestTemplate1_MarkupCompile.cache
+D:\HUY\2.CONG VIEC\5.CODING\1.CODE C SHARP\AUTOCAD API\TestTemplate1\TestTemplate1\obj\Debug\TestTemplate1_MarkupCompile.lref
+D:\HUY\2.CONG VIEC\5.CODING\1.CODE C SHARP\AUTOCAD API\TestTemplate1\TestTemplate1\obj\Debug\View\LayerList.baml
+D:\HUY\2.CONG VIEC\5.CODING\1.CODE C SHARP\AUTOCAD API\TestTemplate1\TestTemplate1\obj\Debug\TestTemplate1.g.resources

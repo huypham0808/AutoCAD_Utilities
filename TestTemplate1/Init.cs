@@ -9,11 +9,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AcAp = Autodesk.AutoCAD.ApplicationServices.Application;
+using System.Windows;
 
 namespace TestTemplate1
 {
     public class Init : AppCad, IExtensionApplication 
     {
+
         #region MyfirstCommand
         [CommandMethod("MYFIRSTCOMMAND")]
         public void MyFirstCommand()
@@ -34,7 +36,7 @@ namespace TestTemplate1
         }
          
         #endregion
-        #region Collectio
+        #region CommandMethod
         [CommandMethod("TESTCOLLECTION")]
         public void TestCollection ()
         {
@@ -77,7 +79,7 @@ namespace TestTemplate1
                 }
                 catch (Autodesk.AutoCAD.Runtime.Exception ex)
                 {
-                    Application.ShowAlertDialog("Bat loi khi gia tri bang 5: " + ex.Message);
+                    AcAp.ShowAlertDialog("Bat loi khi gia tri bang 5: " + ex.Message);
                 }
 
             }
@@ -88,13 +90,13 @@ namespace TestTemplate1
         {
             var doc = AppCad.acDoc();
             var ed = AppCad.acEd();
-            ed.WriteMessage("\nCo " + Application.DocumentManager.Count + " bang ve dang mo");
+            ed.WriteMessage("\nCo " + AcAp.DocumentManager.Count + " bang ve dang mo");
         }
 
         [CommandMethod("CSS_TEMPLATE")]
         public void CSSTemplate()
         {
-            DocumentCollection docColl = Application.DocumentManager;
+            DocumentCollection docColl = AcAp.DocumentManager;
             var ed = AppCad.acEd(); 
             var db = AppCad.acDb();
             Document newDoc = docColl.Add(@"S:\@FRP\_SST-ST Alliance\3. CAD template\_Current template\2023-10-03_ST-SST_CAD TEMPLATE.dwt");
@@ -183,7 +185,7 @@ namespace TestTemplate1
             var db = AppCad.acDb2();
             var ed = AppCad.acEd();
 
-            PromptDistanceOptions option = new PromptDistanceOptions("Chon hoac chon khoang cach");
+            PromptDistanceOptions option = new PromptDistanceOptions("Chon hoac nhap khoang cach");
             option.AllowArbitraryInput = false;
             option.AllowNegative = false;
             option.AllowNone = true;
@@ -231,6 +233,7 @@ namespace TestTemplate1
                 trans.Commit();
             }
         }
+
         [CommandMethod("TESTSELLECTIONSET")]
         public void TestSellectionSet()
         {
@@ -265,22 +268,27 @@ namespace TestTemplate1
                         cirObj = trans.GetObject(selected.ObjectId, OpenMode.ForRead) as Circle;
                         totalArea += cirObj.Area;
                     }
-                    Application.ShowAlertDialog("\nTong dien tich cac hinh tron la: " + Math.Round(totalArea, db.Luprec,MidpointRounding.AwayFromZero));
+                    AcAp.ShowAlertDialog("\nTong dien tich cac hinh tron la: " + Math.Round(totalArea, db.Luprec,MidpointRounding.AwayFromZero));
                 }
                 catch (Autodesk.AutoCAD.Runtime.Exception ex)
                 {
-                    Application.ShowAlertDialog("Khong the tinh tong Dien tich");
+                    AcAp.ShowAlertDialog("Khong the tinh tong Dien tich");
                 }
                 trans.Commit();
             }
         }
-
+        [CommandMethod("SHOWWPF")]
+        public void ShowWpf()
+        {
+            View.LayerList win = new View.LayerList();
+            AcAp.ShowModalWindow(AcAp.MainWindow.Handle, win);
+        }
         #endregion
         #region SupportFunction
         public Boolean IsSavedFile()
         {
             
-            int factor = System.Convert.ToInt16(Application.GetSystemVariable("DWGTITLED"));
+            int factor = System.Convert.ToInt16(AcAp.GetSystemVariable("DWGTITLED"));
             if (factor != 0)
             {
                 return true;
