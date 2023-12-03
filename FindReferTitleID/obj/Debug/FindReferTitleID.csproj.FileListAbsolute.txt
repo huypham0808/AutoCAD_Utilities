@@ -1,0 +1,6 @@
+D:\HUY\7.NET C SHARP\CAD_API\FindReferTitleID\FindReferTitleID\bin\Debug\FindReferTitleID.dll
+D:\HUY\7.NET C SHARP\CAD_API\FindReferTitleID\FindReferTitleID\bin\Debug\FindReferTitleID.pdb
+D:\HUY\7.NET C SHARP\CAD_API\FindReferTitleID\FindReferTitleID\obj\Debug\FindReferTitleID.csproj.AssemblyReference.cache
+D:\HUY\7.NET C SHARP\CAD_API\FindReferTitleID\FindReferTitleID\obj\Debug\FindReferTitleID.csproj.CoreCompileInputs.cache
+D:\HUY\7.NET C SHARP\CAD_API\FindReferTitleID\FindReferTitleID\obj\Debug\FindReferTitleID.dll
+D:\HUY\7.NET C SHARP\CAD_API\FindReferTitleID\FindReferTitleID\obj\Debug\FindReferTitleID.pdb
