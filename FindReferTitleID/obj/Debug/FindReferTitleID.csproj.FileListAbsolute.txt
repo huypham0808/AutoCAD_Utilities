@@ -4,3 +4,7 @@ D:\HUY\7.NET C SHARP\CAD_API\FindReferTitleID\FindReferTitleID\obj\Debug\FindRef
 D:\HUY\7.NET C SHARP\CAD_API\FindReferTitleID\FindReferTitleID\obj\Debug\FindReferTitleID.csproj.CoreCompileInputs.cache
 D:\HUY\7.NET C SHARP\CAD_API\FindReferTitleID\FindReferTitleID\obj\Debug\FindReferTitleID.dll
 D:\HUY\7.NET C SHARP\CAD_API\FindReferTitleID\FindReferTitleID\obj\Debug\FindReferTitleID.pdb
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\FindReferTitleID\obj\Debug\FindReferTitleID.csproj.AssemblyReference.cache
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\FindReferTitleID\obj\Debug\FindReferTitleID.csproj.CoreCompileInputs.cache
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\FindReferTitleID\obj\Debug\FindReferTitleID.dll
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\FindReferTitleID\obj\Debug\FindReferTitleID.pdb

@@ -57,12 +57,13 @@ namespace FindReferTitleID
                     if (attribute != null && attribute.Tag.Equals("S1", StringComparison.OrdinalIgnoreCase))
                     {
                         // Create the field expression
-                        string fieldExpression = $"%<\\AcObjProp Object(%<\\_ObjId {mTextObjectId.Handle}>%).TextString>%";
-
+                        string fieldExpression = "%<\\AcObjProp Object(%<\\_ObjId "+ mTextObjectId.ToString() +">%).TextString>%";
+                        string fieldExpressionConvert = fieldExpression.Replace("\\\\", "\\");
                         // Set the attribute text as the field expression
                         attribute.UpgradeOpen();
-                        attribute.TextString = fieldExpression;
+                        attribute.TextString = fieldExpressionConvert.Replace("((","(").Replace("))",")");
                         attribute.DowngradeOpen();
+                        editor.WriteMessage("Done");
                         break;
                     }
                 }
