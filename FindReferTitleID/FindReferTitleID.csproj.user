@@ -7,5 +7,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <StartProgram>C:\Program Files\Autodesk\AutoCAD 2021\acad.exe</StartProgram>
     <StartAction>Program</StartAction>
+    <StartArguments>"Template\TestLib1.dwg"</StartArguments>
   </PropertyGroup>
 </Project>
