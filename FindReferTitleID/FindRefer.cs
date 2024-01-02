@@ -14,6 +14,11 @@ namespace FindReferTitleID
 {
     public class FindRefer
     {
+        private class BlockData
+        {
+            public ObjectId ObjectId { get; set; }
+            public Point2d Position { get; set; }
+        }
         [CommandMethod("CSS_FindRefer")]
         public void CSS_FindRefer()
         {
@@ -42,11 +47,11 @@ namespace FindReferTitleID
                 return;
             ObjectId mTextObjectIdOrigin = new ObjectId();
             mTextObjectIdOrigin = mTextResult.ObjectId;
-            
+            List<BlockData> blockDataList = new List<BlockData>();
             string mTextObjectId = mTextObjectIdOrigin.ToString();
             mTextObjectId = mTextObjectId.Replace("(", "").Replace(")", "");
-            
-            
+
+
             // Start the transaction
             using (Transaction transaction = currentDatabase.TransactionManager.StartTransaction())
             {
@@ -61,18 +66,37 @@ namespace FindReferTitleID
                     if (attribute != null && attribute.Tag.Equals("S1", StringComparison.OrdinalIgnoreCase))
                     {
                         // Create the field expression
-                        string fieldExpression = "%<\\AcObjProp Object(%<\\_ObjId "+ mTextObjectId.ToString() +">%).TextString>%";                              
-                        using( AttributeReference attributeToModify = transaction.GetObject(attributeId, OpenMode.ForWrite) as AttributeReference)
+                        string fieldExpression = "%<\\AcObjProp Object(%<\\_ObjId " + mTextObjectId.ToString() + ">%).TextString>%";
+                        using (AttributeReference attributeToModify = transaction.GetObject(attributeId, OpenMode.ForWrite) as AttributeReference)
                         {
                             attribute.UpgradeOpen();
                             attributeToModify.TextString = fieldExpression;
                             attribute.DowngradeOpen();
                         }
-                        editor.WriteMessage("Done");                      
+
+                    }
+                    //Get Coordinate of block reference
+                    if (blockReference != null)
+                    {
+                        Point3d blockPosition = blockReference.Position;
+                        Point2d blockPosition2D = new Point2d(blockPosition.X, blockPosition.Y);
+                        //editor.WriteMessage($"\nBlock reference position: X = {blockPosition.X}, Y = {blockPosition.Y}, Z = {blockPosition.Z}");
+                        BlockData blockData = new BlockData
+                        {
+                            ObjectId = entityResult.ObjectId,
+                            Position = blockPosition2D
+                        };
+                        blockDataList.Add(blockData);
                     }
                 }
+                
+                //editor.Regen();
+                /*foreach (BlockData blockData in blockDataList)
+                {
+                    editor.WriteMessage($"\nBlock reference position: {blockData.ObjectId} X = {blockData.Position.X}, Y = {blockData.Position.Y}");
+                }*/
+                editor.WriteMessage("Done");
                 // Commit the transaction
-                editor.Regen();
                 transaction.Commit();
             }
         }
