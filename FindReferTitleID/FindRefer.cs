@@ -10,6 +10,8 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 
+using System.Windows.Forms;
+
 namespace FindReferTitleID
 {
     public class FindRefer
@@ -19,10 +21,15 @@ namespace FindReferTitleID
             public ObjectId ObjectId { get; set; }
             public Point2d Position { get; set; }
         }
+
+        private static List<BlockData> blockDataList = new List<BlockData>();
+        private static ListView listView;
+
+
         [CommandMethod("CSS_FindRefer")]
         public void CSS_FindRefer()
         {
-            Document currentDocument = Application.DocumentManager.MdiActiveDocument;
+            Document currentDocument = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Database currentDatabase = currentDocument.Database;
             Editor editor = currentDocument.Editor;
 
@@ -47,7 +54,9 @@ namespace FindReferTitleID
                 return;
             ObjectId mTextObjectIdOrigin = new ObjectId();
             mTextObjectIdOrigin = mTextResult.ObjectId;
-            List<BlockData> blockDataList = new List<BlockData>();
+
+
+
             string mTextObjectId = mTextObjectIdOrigin.ToString();
             mTextObjectId = mTextObjectId.Replace("(", "").Replace(")", "");
 
@@ -71,8 +80,10 @@ namespace FindReferTitleID
                         {
                             attribute.UpgradeOpen();
                             attributeToModify.TextString = fieldExpression;
-                            attribute.DowngradeOpen();
+                            attribute.DowngradeOpen();                           
                         }
+                       //Get value of S1
+                       
 
                     }
                     //Get Coordinate of block reference
@@ -80,7 +91,6 @@ namespace FindReferTitleID
                     {
                         Point3d blockPosition = blockReference.Position;
                         Point2d blockPosition2D = new Point2d(blockPosition.X, blockPosition.Y);
-                        //editor.WriteMessage($"\nBlock reference position: X = {blockPosition.X}, Y = {blockPosition.Y}, Z = {blockPosition.Z}");
                         BlockData blockData = new BlockData
                         {
                             ObjectId = entityResult.ObjectId,
@@ -99,6 +109,67 @@ namespace FindReferTitleID
                 // Commit the transaction
                 transaction.Commit();
             }
+           
+        }
+        //Show Table display List Data
+        [CommandMethod("CSS_ShowFindRefer")]
+        public static void ShowFindRefe ()
+        {
+            Document currentDocument = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Database currentDatabase = currentDocument.Database;
+            Editor editor = currentDocument.Editor;
+            //Show List Data
+            if (blockDataList.Count > 0)
+            {
+                if (listView == null || listView.IsDisposed)
+                    CreateListViewForm();
+
+                //RefreshListView();
+            }
+            else
+            {
+                editor.WriteMessage("\nNo TitleID found.");
+            }
+        }
+        private static void CreateListViewForm()
+        {
+            Form form = new Form();
+            form.Text = "Block Data List";
+            form.Size = new System.Drawing.Size(400, 300);
+
+            listView = new ListView();
+            listView.Dock = DockStyle.Fill;
+            listView.View = View.Details;
+            listView.Columns.Add("Object ID", 200);
+            listView.Columns.Add("Position X", 100);
+            listView.Columns.Add("Position Y", 100);
+
+            form.Controls.Add(listView);
+
+            form.FormClosing += (sender, e) =>
+            {
+                listView = null;
+                blockDataList.Clear();
+            };
+
+            form.Show();
+        }
+        private static void RefreshListView()
+        {
+            //listView.Items.Clear();
+
+            foreach (BlockData blockData in blockDataList)
+            {
+                ListViewItem item = new ListViewItem(blockData.ObjectId.ToString());
+                item.SubItems.Add(blockData.Position.X.ToString());
+                item.SubItems.Add(blockData.Position.Y.ToString());
+
+                listView.Items.Add(item);
+            }
+
+            ListViewItem lastItem = listView.Items.Count > 0 ? listView.Items[listView.Items.Count - 1] : null;
+            if (lastItem != null)
+                lastItem.EnsureVisible();
         }
     }
 }
