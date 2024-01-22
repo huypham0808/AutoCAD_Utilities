@@ -1,0 +1,12 @@
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\Changefilename\ChangeFileName\ChangeFileName\bin\Debug\Start.scr
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\Changefilename\ChangeFileName\ChangeFileName\bin\Debug\ChangeFileName.dll
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\Changefilename\ChangeFileName\ChangeFileName\bin\Debug\ChangeFileName.pdb
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\Changefilename\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.csproj.AssemblyReference.cache
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\Changefilename\ChangeFileName\ChangeFileName\obj\Debug\Views\FileNameWindow.g.cs
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\Changefilename\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName_MarkupCompile.cache
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\Changefilename\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName_MarkupCompile.lref
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\Changefilename\ChangeFileName\ChangeFileName\obj\Debug\Views\FileNameWindow.baml
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\Changefilename\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.g.resources
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\Changefilename\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.csproj.CoreCompileInputs.cache
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\Changefilename\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.dll
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\Changefilename\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.pdb
