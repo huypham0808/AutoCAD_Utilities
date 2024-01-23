@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using System.Windows;
-using ChangeFileName.ViewModels;
+﻿using System.Windows.Input;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.ApplicationServices;
-using Autodesk.AutoCAD.Runtime;
 using Application = Autodesk.AutoCAD.ApplicationServices.Application;
 using System.ComponentModel;
+using System.IO;
+using Autodesk.AutoCAD.DatabaseServices;
+using System;
 
 namespace ChangeFileName.ViewModels
 {
@@ -22,7 +17,12 @@ namespace ChangeFileName.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        //Define Properties
         private string _NewFileName;
+        private string _revisionNumber;
+
+
         public string NewFileName
         {
             get { return _NewFileName; }
@@ -36,16 +36,54 @@ namespace ChangeFileName.ViewModels
 
             }
         }
-
-        public ChangeFileNameViewModel()
+        public string RevisionNumber
         {
+            get { return _revisionNumber; }
+            set
+            {
+                _revisionNumber = value;
+                OnPropertyChanged(nameof(RevisionNumber));
+            }
+        }
+
+        //Constructor
+        public ChangeFileNameViewModel ()
+        {
+            RevisionNumber = "0";
+            
             ChangeFileNameCommand = new RelayCommand(ChangeShopDrawingFile);
         }
+        //public ICommand UpdateCommand => new RelayCommand(() => ChangeShopDrawingFile());
+        //Define method
         private void ChangeShopDrawingFile()
         {
+            string activeDate = DateTime.Now.ToString("yyyy.MM.dd");
+            string projectName = NewFileName;
+            string newFileName = activeDate + "-" + projectName + "-" + "FRP Shop Drawings" + "-"+ "Rev." +RevisionNumber;
+            try
+            {
+                Document doc = Application.DocumentManager.MdiActiveDocument;
+                Editor editor = doc.Editor;
 
-            MessageBox.Show("Hello" + NewFileName);
+                // Get the current document name
+                string currentFileName = doc.Name;
+
+                // Generate the new file path
+                string newFilePath = currentFileName.Replace(Path.GetFileName(currentFileName), newFileName);
+
+                // Rename the file
+                doc.Database.SaveAs(newFilePath, true, DwgVersion.Current, doc.Database.SecurityParameters);
+                // Update the document name
+                doc.CloseAndDiscard();
+                Document newDoc = Application.DocumentManager.Open(newFilePath);
+                editor.SwitchToPaperSpace();
+                NewFileName = string.Empty;
+                editor.WriteMessage("Rename Successfully");
+            }
+            catch
+            {
+                return;
+            }
         }
-
     }
 }

@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using ChangeFileName.ViewModels;
 namespace ChangeFileName.Views
 {
     /// <summary>
@@ -23,6 +23,7 @@ namespace ChangeFileName.Views
         public FileNameWindow()
         {
             InitializeComponent();
+            DataContext = new ChangeFileNameViewModel();
         }
     }
 }
