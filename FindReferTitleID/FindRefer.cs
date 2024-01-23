@@ -9,12 +9,16 @@ using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
+using FindReferTitleID.UtilsMethod;
+using System.IO;
+
 
 using System.Windows.Forms;
+using Application = Autodesk.AutoCAD.ApplicationServices.Application;
 
 namespace FindReferTitleID
 {
-    public class FindRefer
+    public class FindRefer : UtilsMethod.UtilsMethod
     {
         private class BlockData
         {
@@ -26,40 +30,18 @@ namespace FindReferTitleID
         private static ListView listView;
 
 
-        [CommandMethod("CSS_FindRefer")]
+        [CommandMethod("FindRefer")]
         public void CSS_FindRefer()
         {
             Document currentDocument = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Database currentDatabase = currentDocument.Database;
             Editor editor = currentDocument.Editor;
 
-            // Prompt the user to select the block reference
-            PromptEntityOptions entityOptions = new PromptEntityOptions("\nSelect the block reference: ");
-            entityOptions.SetRejectMessage("\nInvalid selection. Please select a block reference.");
-            entityOptions.AddAllowedClass(typeof(BlockReference), true);
-
-            PromptEntityResult entityResult = editor.GetEntity(entityOptions);
-            if (entityResult.Status != PromptStatus.OK)
-                return;
-
-            ObjectId blockReferenceId = entityResult.ObjectId;
-
-            // Prompt the user to select the MText object
-            PromptEntityOptions mTextOptions = new PromptEntityOptions("\nSelect the MText object: ");
-            mTextOptions.SetRejectMessage("\nInvalid selection. Please select an MText object.");
-            mTextOptions.AddAllowedClass(typeof(MText), true);
-
-            PromptEntityResult mTextResult = editor.GetEntity(mTextOptions);
-            if (mTextResult.Status != PromptStatus.OK)
-                return;
-            ObjectId mTextObjectIdOrigin = new ObjectId();
-            mTextObjectIdOrigin = mTextResult.ObjectId;
-
-
+            ObjectId blockReferenceId = GetObjectID("TitleID");
+            ObjectId mTextObjectIdOrigin = GetMTextId("Sheet number");
 
             string mTextObjectId = mTextObjectIdOrigin.ToString();
             mTextObjectId = mTextObjectId.Replace("(", "").Replace(")", "");
-
 
             // Start the transaction
             using (Transaction transaction = currentDatabase.TransactionManager.StartTransaction())
@@ -80,40 +62,31 @@ namespace FindReferTitleID
                         {
                             attribute.UpgradeOpen();
                             attributeToModify.TextString = fieldExpression;
-                            attribute.DowngradeOpen();                           
+                            attribute.DowngradeOpen();
                         }
-                       //Get value of S1
-                       
-
-                    }
-                    //Get Coordinate of block reference
-                    if (blockReference != null)
-                    {
-                        Point3d blockPosition = blockReference.Position;
-                        Point2d blockPosition2D = new Point2d(blockPosition.X, blockPosition.Y);
-                        BlockData blockData = new BlockData
-                        {
-                            ObjectId = entityResult.ObjectId,
-                            Position = blockPosition2D
-                        };
-                        blockDataList.Add(blockData);
                     }
                 }
-                
-                //editor.Regen();
-                /*foreach (BlockData blockData in blockDataList)
+                //Get Coordinate of block reference
+                if (blockReference != null)
                 {
-                    editor.WriteMessage($"\nBlock reference position: {blockData.ObjectId} X = {blockData.Position.X}, Y = {blockData.Position.Y}");
-                }*/
+                    Point3d blockPosition = blockReference.Position;
+                    Point2d blockPosition2D = new Point2d(blockPosition.X, blockPosition.Y);
+                    BlockData blockData = new BlockData
+                    {
+                        ObjectId = blockReferenceId,
+                        Position = blockPosition2D
+                    };
+                    blockDataList.Add(blockData);
+                }
                 editor.WriteMessage("Done");
                 // Commit the transaction
                 transaction.Commit();
             }
-           
+
         }
         //Show Table display List Data
-        [CommandMethod("CSS_ShowFindRefer")]
-        public static void ShowFindRefe ()
+        [CommandMethod("ShowFindRefer")]
+        public static void ShowFindRefe()
         {
             Document currentDocument = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Database currentDatabase = currentDocument.Database;
@@ -173,3 +146,5 @@ namespace FindReferTitleID
         }
     }
 }
+
+

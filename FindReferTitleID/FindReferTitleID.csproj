@@ -76,6 +76,8 @@
   <ItemGroup>
     <Compile Include="FindRefer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UtilsMethod\FindReferLib.cs" />
+    <Compile Include="UtilsMethod\UtilsMethod.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Template\TestLib1.dwg">
