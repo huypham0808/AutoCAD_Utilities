@@ -7,20 +7,27 @@ namespace FindReferTitleID.UtilsMethod
 {
     public class UtilsMethod
     {
-        public static ObjectId GetObjectID (string objectName)
+        public static ObjectIdCollection GetObjectIDs (string objectName)
         {
             var ed = FindReferLib.FindReferEd(); ;
 
             // Prompt the user to select the block reference
-            PromptEntityOptions entityOptions = new PromptEntityOptions($"\nSelect the {objectName}: ");
-            entityOptions.SetRejectMessage("\nInvalid selection. Please select a block reference.");
-            entityOptions.AddAllowedClass(typeof(BlockReference), true);
+            PromptSelectionOptions selectionOptions = new PromptSelectionOptions();
+            selectionOptions.MessageForAdding = $"\nSelect the { objectName}:";
+            selectionOptions.SingleOnly = false;
 
-            PromptEntityResult entityResult = ed.GetEntity(entityOptions);
-            ObjectId blockObjectID = entityResult.ObjectId;
-            if (entityResult.Status != PromptStatus.OK) return ObjectId.Null;
-            return blockObjectID;
+            PromptSelectionResult selectionResult = ed.GetSelection(selectionOptions);
+            
+            if (selectionResult.Status != PromptStatus.OK)          
+               return new ObjectIdCollection();
 
+            SelectionSet selectionSet = selectionResult.Value;
+            ObjectIdCollection objectIDCollection = new ObjectIdCollection();
+            foreach(SelectedObject selectedObject in selectionSet)
+            {
+                objectIDCollection.Add(selectedObject.ObjectId);
+            }
+            return objectIDCollection;
         }
 
         public static ObjectId GetMTextId (string mtextName)

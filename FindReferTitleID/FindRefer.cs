@@ -30,54 +30,61 @@ namespace FindReferTitleID
         private static ListView listView;
 
 
-        [CommandMethod("FindRefer")]
+        [CommandMethod("FindReferMulti")]
         public void CSS_FindRefer()
         {
             Document currentDocument = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Database currentDatabase = currentDocument.Database;
             Editor editor = currentDocument.Editor;
 
-            ObjectId blockReferenceId = GetObjectID("TitleID");
+            ObjectIdCollection blockReferenceIds = GetObjectIDs("TitleID");
             ObjectId mTextObjectIdOrigin = GetMTextId("Sheet number");
 
-            string mTextObjectId = mTextObjectIdOrigin.ToString();
-            mTextObjectId = mTextObjectId.Replace("(", "").Replace(")", "");
+            
+            
 
             // Start the transaction
             using (Transaction transaction = currentDatabase.TransactionManager.StartTransaction())
             {
-                // Open the block reference and its attribute collection
-                BlockReference blockReference = transaction.GetObject(blockReferenceId, OpenMode.ForRead) as BlockReference;
-                AttributeCollection attributeCollection = blockReference.AttributeCollection;
-
-                // Find the text attribute with tag "S1"
-                foreach (ObjectId attributeId in attributeCollection)
+                foreach (ObjectId blockReferenceId in blockReferenceIds)
                 {
-                    AttributeReference attribute = transaction.GetObject(attributeId, OpenMode.ForRead) as AttributeReference;
-                    if (attribute != null && attribute.Tag.Equals("S1", StringComparison.OrdinalIgnoreCase))
+                    // Open the block reference and its attribute collection
+                    BlockReference blockReference = transaction.GetObject(blockReferenceId, OpenMode.ForRead) as BlockReference;
+                    AttributeCollection attributeCollection = blockReference.AttributeCollection;
+                    // Find the text attribute with tag "S1"
+                    foreach (ObjectId attributeId in attributeCollection)
                     {
-                        // Create the field expression
-                        string fieldExpression = "%<\\AcObjProp Object(%<\\_ObjId " + mTextObjectId.ToString() + ">%).TextString>%";
-                        using (AttributeReference attributeToModify = transaction.GetObject(attributeId, OpenMode.ForWrite) as AttributeReference)
+                        AttributeReference attribute = transaction.GetObject(attributeId, OpenMode.ForRead) as AttributeReference;
+                        if (attribute != null && attribute.Tag.Equals("S1", StringComparison.OrdinalIgnoreCase))
                         {
-                            attribute.UpgradeOpen();
-                            attributeToModify.TextString = fieldExpression;
-                            attribute.DowngradeOpen();
+                            // Create the field expression
+                            string mTextObjectId = mTextObjectIdOrigin.ToString();
+                            mTextObjectId = mTextObjectId.Replace("(", "").Replace(")", "");
+                            string fieldExpression = "%<\\AcObjProp Object(%<\\_ObjId " + mTextObjectId.ToString() + ">%).TextString>%";
+                            using (AttributeReference attributeToModify = transaction.GetObject(attributeId, OpenMode.ForWrite) as AttributeReference)
+                            {
+                                attribute.UpgradeOpen();
+                                attributeToModify.TextString = fieldExpression;
+                                attribute.DowngradeOpen();
+                            }
                         }
                     }
                 }
-                //Get Coordinate of block reference
-                if (blockReference != null)
-                {
-                    Point3d blockPosition = blockReference.Position;
-                    Point2d blockPosition2D = new Point2d(blockPosition.X, blockPosition.Y);
-                    BlockData blockData = new BlockData
-                    {
-                        ObjectId = blockReferenceId,
-                        Position = blockPosition2D
-                    };
-                    blockDataList.Add(blockData);
-                }
+
+
+                
+                ////Get Coordinate of block reference
+                //if (blockReference != null)
+                //{
+                //    Point3d blockPosition = blockReference.Position;
+                //    Point2d blockPosition2D = new Point2d(blockPosition.X, blockPosition.Y);
+                //    BlockData blockData = new BlockData
+                //    {
+                //        ObjectId = blockReferenceId,
+                //        Position = blockPosition2D
+                //    };
+                //    blockDataList.Add(blockData);
+                //}
                 editor.WriteMessage("Done");
                 // Commit the transaction
                 transaction.Commit();
