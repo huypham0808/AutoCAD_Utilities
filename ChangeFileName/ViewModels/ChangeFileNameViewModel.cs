@@ -12,6 +12,7 @@ namespace ChangeFileName.ViewModels
     public class ChangeFileNameViewModel : INotifyPropertyChanged
     {
         public ICommand ChangeFileNameCommand { get; }
+        public ICommand ConverTextCommand { get; }
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {
@@ -21,7 +22,8 @@ namespace ChangeFileName.ViewModels
         //Define Properties
         private string _NewFileName;
         private string _revisionNumber;
-
+        private string _inputText;
+        private string _resultText;
 
         public string NewFileName
         {
@@ -45,16 +47,32 @@ namespace ChangeFileName.ViewModels
                 OnPropertyChanged(nameof(RevisionNumber));
             }
         }
-
+        public string InputText
+        {
+            get { return _inputText; }
+            set
+            {
+                _inputText = value;
+                OnPropertyChanged(nameof(InputText));
+            }
+        }
+        public string ResultText
+        {
+            get { return _resultText; }
+            set
+            {
+                _resultText = value;
+                OnPropertyChanged(nameof(ResultText));
+            }
+        }
         //Constructor
         public ChangeFileNameViewModel ()
         {
             RevisionNumber = "0";
             
             ChangeFileNameCommand = new RelayCommand(ChangeShopDrawingFile);
+            ConverTextCommand = new RelayCommand(ConvertToUpper);
         }
-        //public ICommand UpdateCommand => new RelayCommand(() => ChangeShopDrawingFile());
-        //Define method
         private void ChangeShopDrawingFile()
         {
             string activeDate = DateTime.Now.ToString("yyyy.MM.dd");
@@ -84,6 +102,10 @@ namespace ChangeFileName.ViewModels
             {
                 return;
             }
+        }
+        private void ConvertToUpper()
+        {
+            ResultText = InputText.ToUpper();
         }
     }
 }

@@ -9,3 +9,4 @@ D:\4.PERSONAL\5.CODING\18.CAD_Tool\Changefilename\ChangeFileName\ChangeFileName\
 D:\4.PERSONAL\5.CODING\18.CAD_Tool\Changefilename\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.csproj.CoreCompileInputs.cache
 D:\4.PERSONAL\5.CODING\18.CAD_Tool\Changefilename\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.dll
 D:\4.PERSONAL\5.CODING\18.CAD_Tool\Changefilename\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.pdb
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\Changefilename\ChangeFileName\ChangeFileName\obj\Debug\ChangeFileName.csproj.AssemblyReference.cache

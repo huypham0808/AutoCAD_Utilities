@@ -16,7 +16,7 @@ namespace ChangeFileName
 {
     public class Commands
     {
-        [CommandMethod("CSS_ChangeFileName")]
+        [CommandMethod("CSS_ChangeFileName_V01")]
         public void Test()
         {
             ChangeFileNameViewModel vM = new ChangeFileNameViewModel();

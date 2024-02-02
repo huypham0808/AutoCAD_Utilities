@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ChangeFileName.Views"
              mc:Ignorable="d" 
              FontSize="16"
-             Height="120"
+             Height="220"
              Width="600"
              Title="Update file name"
              ResizeMode="NoResize"
@@ -26,7 +26,10 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
-
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
                         <Label Content="New file name:" Grid.Row="0" Grid.Column="0"></Label>
                         <Label Content="Revision" 
@@ -51,6 +54,17 @@
                             Background="OrangeRed"
                             BorderBrush="Orange"
                             Foreground="White"/>
+                        <Label Grid.Column="0" Grid.Row="3" Content="Convert text to Upper:"/>
+                        <TextBox Grid.Column="0" 
+                                 Grid.Row="4" 
+                                 Height="30"
+                                 Text="{Binding InputText, Mode=TwoWay}"/>
+                        <TextBox Grid.Column="0" Grid.Row="5" Height="30" 
+                                 Margin="0 10 0 0"
+                                 Text="{Binding ResultText, Mode=TwoWay}"/>
+                        <Button Grid.Row="5" Grid.Column="1" Content="Convert" Width="80"
+                                Command="{Binding ConverTextCommand}"/>
+                        <Button Grid.Row="5" Grid.Column="2" Content="Copy" Width="80"/>
                     </Grid>
                 </StackPanel>
             </Grid>
