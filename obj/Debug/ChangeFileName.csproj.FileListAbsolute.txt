@@ -36,4 +36,13 @@ D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\obj\Debug\ChangeFileName.g.res
 D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\obj\Debug\ChangeFileName.csproj.CoreCompileInputs.cache
 D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\obj\Debug\ChangeFileName.dll
 D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\obj\Debug\ChangeFileName.pdb
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\bin\Debug\MaterialDesignColors.dll
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\bin\Debug\MaterialDesignThemes.Wpf.dll
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\bin\Debug\Microsoft.Xaml.Behaviors.dll
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\bin\Debug\MaterialDesignColors.pdb
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\bin\Debug\MaterialDesignThemes.Wpf.pdb
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\bin\Debug\MaterialDesignThemes.Wpf.xml
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\bin\Debug\Microsoft.Xaml.Behaviors.pdb
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\bin\Debug\Microsoft.Xaml.Behaviors.xml
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\obj\Debug\ChangeFileName.csproj.CopyComplete
 D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\obj\Debug\ChangeFileName.csproj.AssemblyReference.cache

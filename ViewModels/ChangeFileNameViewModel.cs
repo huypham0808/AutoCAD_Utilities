@@ -13,6 +13,8 @@ using System.Collections.ObjectModel;
 using System.Text;
 using ChangeFileName.Utilities;
 using System.Xml;
+using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace ChangeFileName.ViewModels
 {
@@ -24,6 +26,8 @@ namespace ChangeFileName.ViewModels
         public ICommand GetCurrentLocalFileDwgCommand { get; }
         public ICommand GetSDriveProjectFolderCommand { get; }
         public ICommand PushFileToSDriveCommand { get; }
+        public ICommand SaveDataToTextFileCommand { get; }
+        public ICommand CreateTextStyleCommand { get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
@@ -47,9 +51,9 @@ namespace ChangeFileName.ViewModels
         private string _sdriveCompany;
         private ObservableCollection<string> _filePathsToListView = new ObservableCollection<string>();
         private bool _isExpandedHistoryPath;
-        private string directoryHistoryFolder = @"C:\FRP-ST-SST-Plugin\Data\Data Project Path";
-        private string historyDataFileName = "\\History project folder directory.xml";       
-
+        private readonly string directoryHistoryFolder = @"C:\FRP-ST-SST-Plugin\Data\Data Project Path";
+        private readonly string historyDataFileName = "\\History project folder directory.xml";
+        private const int originalNumber = 16;
         public string ContentCopyButton
         {
             get { return _contentCopyButton; }
@@ -183,7 +187,17 @@ namespace ChangeFileName.ViewModels
                 OnPropertyChanged(nameof(FilePathToListView));
             }
         }
+        private string _textStyleName;
 
+        public string TextStyleName
+        {
+            get { return _textStyleName; }
+            set 
+            { 
+                _textStyleName = value;
+                OnPropertyChanged(nameof(TextStyleName));
+            }
+        }
         //Constructor
         public ChangeFileNameViewModel ()
         {
@@ -199,7 +213,11 @@ namespace ChangeFileName.ViewModels
             PushFileToSDriveCommand = new RelayCommand(PushFileToSDrive);
             IsExpandedHistoryPath = false;
             FilePathToListView = new ObservableCollection<string>();
+            SaveDataToTextFileCommand = new RelayCommand(SaveListViewDataToXml);
+            CreateTextStyleCommand = new RelayCommand(CreateNewTextStyle);
             LoadDataFromXmlFile();
+            
+            
         }
         //Method
         private void ChangeShopDrawingFile()
@@ -273,6 +291,16 @@ namespace ChangeFileName.ViewModels
             {
                 string folderSDrivePath = Path.GetDirectoryName(openFileDialog.FileName);
                 SDriveCompanyPath = folderSDrivePath;
+
+                if (FilePathToListView.Count < 3)
+                {
+                    FilePathToListView.Add(SDriveCompanyPath);
+                }
+                else
+                {
+                    FilePathToListView.RemoveAt(0);
+                    FilePathToListView.Add(SDriveCompanyPath);
+                }               
             }
             else
             {
@@ -281,64 +309,48 @@ namespace ChangeFileName.ViewModels
         }
         private void PushFileToSDrive()
         {
-            if(string.IsNullOrEmpty(CurrentLocalFilePath))
+            if(string.IsNullOrEmpty(CurrentLocalFilePath) || string.IsNullOrEmpty(SDriveCompanyPath))
             {
-                UtilMethod.WarningMessageBox("Please get Current local drive!", "AutoCAD");
-                return;
-            }
-            if (string.IsNullOrEmpty(SDriveCompanyPath))
-            {
-                UtilMethod.WarningMessageBox(@"Please get S:\ ...drive!", "AutoCAD");
+                UtilMethod.WarningMessageBox(@"Current local drive or S:\ ...drive NOT allow empty", "AutoCAD");
                 return;
             }
             string sourceDir = CurrentLocalFilePath;
+            string sourceDirPDF = sourceDir;
+            string pdfDrawingDir = Path.ChangeExtension(sourceDirPDF, ".pdf");
             string fileName = Path.GetFileName(sourceDir);
-            string sDriveFolderPath = SDriveCompanyPath + "\\" + fileName;
-            string fullXmlFilePath = directoryHistoryFolder + historyDataFileName;
+            string pdfFileName = Path.GetFileName(pdfDrawingDir);
+            string sDriveFolderPathDwg = SDriveCompanyPath + "\\" + fileName;
+            string sDriveFolderPathPdf = SDriveCompanyPath + "\\" + pdfFileName;
+
             try
             {
-                if (File.Exists(sDriveFolderPath))
+                if (File.Exists(sDriveFolderPathDwg))
                 {
-                    File.Copy(sourceDir, sDriveFolderPath, true);
-                    UtilMethod.WarningMessageBox("Push file done", "AutoCAD");
+                    File.Copy(sourceDir, sDriveFolderPathDwg, true);
+                    File.Copy(pdfDrawingDir, sDriveFolderPathPdf, true);
+                    UtilMethod.WarningMessageBox("Push file successfully!", "AutoCAD");
+                }
+                else if (!File.Exists(pdfDrawingDir))
+                {
+                    UtilMethod.WarningMessageBox("Print PDF before push file!", "AutoCAD");
+                    return;
                 }
                 else
                 {
-                    File.Copy(sourceDir, sDriveFolderPath);
-                    UtilMethod.WarningMessageBox("Push file done", "AutoCAD");
+                    File.Copy(sourceDir, sDriveFolderPathDwg);
+                    File.Copy(pdfDrawingDir, sDriveFolderPathPdf);
+                    UtilMethod.WarningMessageBox("Push file successfully!", "AutoCAD");
                 }
             }
             catch
             {
-                UtilMethod.WarningMessageBox("File is opening by another", "AutoCAD");
+                UtilMethod.WarningMessageBox("File is opening by someone", "AutoCAD");
+                return;
             }
-            if(!FilePathToListView.Contains(SDriveCompanyPath))
-            {
-                if(FilePathToListView.Count < 3)
-                {
-                    FilePathToListView.Add(SDriveCompanyPath);
-                }
-                else
-                {
-                    FilePathToListView.RemoveAt(0);
-                    FilePathToListView.Add(SDriveCompanyPath);
-                }
-                if (Directory.Exists(directoryHistoryFolder))
-                {
-                    UtilMethod.AppendTextToXmlFile(fullXmlFilePath, SDriveCompanyPath);
-                }
-                else
-                {
-                    DirectoryInfo di = Directory.CreateDirectory(directoryHistoryFolder);
-                    UtilMethod.AppendTextToXmlFile(fullXmlFilePath, SDriveCompanyPath);
-                }        
-            }
-            OnPropertyChanged(nameof(FilePathToListView));
             IsExpandedHistoryPath = true;
         }
         private void LoadDataFromXmlFile()
         {
-
             string xmlFilePath = directoryHistoryFolder + historyDataFileName;
             try
             {
@@ -353,6 +365,96 @@ namespace ChangeFileName.ViewModels
             }
             catch
             {
+                return;
+            }
+        }
+        //Not in use
+        private void SaveListViewDataToXml()
+        {
+            if (Directory.Exists(directoryHistoryFolder))
+            {
+                string xmlFilePath = directoryHistoryFolder + historyDataFileName;
+                using (StreamWriter writer = new StreamWriter(xmlFilePath))
+                {
+                    foreach (var item in FilePathToListView)
+                    {
+                        writer.WriteLine(item);
+                    }
+                }
+                return;
+                //UtilMethod.WarningMessageBox("Saved current folder successfully!", "AutoCAD");
+            }
+        }
+        private void CreateNewTextStyle()
+        {
+            Document doc = UtilMethod.AcadDoc();
+            Database db = UtilMethod.AcadDb();
+
+            try
+            {
+                using(var trans = db.TransactionManager.StartTransaction())
+                {
+                    doc.LockDocument();
+                    SymbolTable st = (SymbolTable)trans.GetObject(db.TextStyleTableId, OpenMode.ForRead);
+
+                    //Check text style isExisting
+                    if(st.Has(TextStyleName))
+                    {
+                        UtilMethod.WarningMessageBox($"Text style {TextStyleName} is existing already!", "AutoCAD");
+                        return;
+                    }
+                    ObjectId style16ID = st["16"];
+                    TextStyleTableRecord style16 = (TextStyleTableRecord)trans.GetObject(style16ID, OpenMode.ForRead);
+                
+                    //Create new text style base on style 16
+                    TextStyleTableRecord newStyle = new TextStyleTableRecord();
+                    newStyle.Name = TextStyleName;
+                    
+                    int textStyleNum = Convert.ToInt32(newStyle.Name);
+
+                    //Clone properties of Style 16
+                    newStyle.FileName = style16.FileName;
+                    newStyle.BigFontFileName = style16.BigFontFileName;
+                    newStyle.FlagBits = style16.FlagBits;
+                    newStyle.ObliquingAngle = style16.ObliquingAngle;
+                    newStyle.TextSize = 1 * ((double)textStyleNum / originalNumber);
+                    
+                    //Add new text style to drawing
+                    st.UpgradeOpen();
+                    ObjectId newTextStyleID = st.Add(newStyle);
+                    trans.AddNewlyCreatedDBObject(newStyle, true);
+
+                    //-----------------------Create new dimension style base on style 16
+                    DimStyleTable dst = (DimStyleTable)trans.GetObject(db.DimStyleTableId, OpenMode.ForRead);
+                    //Check dimension style isExisting
+                    if (dst.Has(TextStyleName))
+                    {
+                        UtilMethod.WarningMessageBox($"Dimension style {TextStyleName} is existing already!", "AutoCAD");
+                        return;
+                    }
+                    ObjectId dimStyleID16 = dst["Scale 16"];
+                    DimStyleTableRecord dimStyle16 =  (DimStyleTableRecord)trans.GetObject(dimStyleID16, OpenMode.ForRead);
+
+                    //Create new dimension style base on style 16
+                    DimStyleTableRecord newDimStyle = new DimStyleTableRecord();
+                    newDimStyle.Name = "Scale " + TextStyleName;
+                    //Clone properties of Style 16
+                    newDimStyle.CopyFrom(dimStyle16);
+                    //newDimStyle.Dimgap = dimStyle16.Dimgap;
+                    newDimStyle.Dimscale = textStyleNum;
+                    
+                    //Ad dimension style to table 
+                    dst.UpgradeOpen();
+                    ObjectId newDimStyleID = dst.Add(newDimStyle);
+                    trans.AddNewlyCreatedDBObject(newDimStyle, true);
+
+                    UtilMethod.WarningMessageBox("Create successfully", "AutoCAD");
+                    trans.Commit();
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilMethod.WarningMessageBox($"An error occurs: {ex.Message}","Error");
                 return;
             }
         }

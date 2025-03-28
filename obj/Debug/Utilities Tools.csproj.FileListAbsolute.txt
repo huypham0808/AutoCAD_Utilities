@@ -1,0 +1,22 @@
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\bin\Debug\Start.scr
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\bin\Debug\MaterialDesignColors.dll
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\bin\Debug\MaterialDesignThemes.Wpf.dll
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\bin\Debug\Microsoft.Xaml.Behaviors.dll
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\bin\Debug\MaterialDesignColors.pdb
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\bin\Debug\MaterialDesignThemes.Wpf.pdb
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\bin\Debug\MaterialDesignThemes.Wpf.xml
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\bin\Debug\Microsoft.Xaml.Behaviors.pdb
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\bin\Debug\Microsoft.Xaml.Behaviors.xml
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\obj\Debug\Views\FileNameWindow.baml
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\obj\Debug\Views\FileNameWindow.g.cs
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\obj\Debug\GeneratedInternalTypeHelper.g.cs
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\obj\Debug\Utilities Tools.csproj.CoreCompileInputs.cache
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\obj\Debug\Utilities Tools.csproj.CopyComplete
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\bin\Debug\UtilitiesTool_V4.dll
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\bin\Debug\UtilitiesTool_V4.pdb
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\obj\Debug\UtilitiesTool_V4_MarkupCompile.cache
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\obj\Debug\UtilitiesTool_V4_MarkupCompile.lref
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\obj\Debug\UtilitiesTool_V4.g.resources
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\obj\Debug\UtilitiesTool_V4.dll
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\obj\Debug\UtilitiesTool_V4.pdb
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\ChangeFileName\obj\Debug\Utilities Tools.csproj.AssemblyReference.cache

@@ -26,6 +26,10 @@ namespace ChangeFileName.Utilities
         {
             return Application.DocumentManager.MdiActiveDocument;
         }
+        public static Database AcadDb()
+        {
+            return Application.DocumentManager.MdiActiveDocument.Database;
+        }
         public static void WarningMessageBox (string contentMess, string titleMess)
         {
             MessageBox.Show(contentMess, titleMess, MessageBoxButtons.OK, MessageBoxIcon.Information);
