@@ -1,0 +1,270 @@
+﻿<Window x:Class="ChangeFileName.Views.FileNameWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:ChangeFileName.Views"
+        xmlns:local1="clr-namespace:ChangeFileName.ViewModels"
+        mc:Ignorable="d"
+        FontSize="16"
+        Height="510"
+        Width="650"
+        Title="Utilities tool - CSS VN Team @2025"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        d:DesignHeight="510"
+        d:DesignWidth="650"
+        VerticalAlignment="Stretch"
+        SizeToContent="Height"
+        Closing="Window_Closing">
+    <Window.Resources>
+        <local1:UpperCaseConverter x:Key="UpperCaseConverter" />
+    </Window.Resources>
+    <TabControl BorderThickness="0"
+                BorderBrush="Transparent">
+        <TabItem Header="Utility"
+                 Background="Orange"
+                 Width="100">
+            <StackPanel Background="#FF3B4453"
+                        Orientation="Vertical">
+                <Border Padding="10">
+                    <Grid>
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                    <RowDefinition Height="auto" />
+                                </Grid.RowDefinitions>
+                                <GroupBox Header="Update file name:"
+                                          Grid.Row="0"
+                                          Grid.Column="0"
+                                          Grid.ColumnSpan="3"
+                                          Padding="5"
+                                          Foreground="White">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+                                        <Label Grid.Row="0"
+                                               Grid.Column="0"
+                                               Content="Input file name"
+                                               Foreground="White" />
+                                        <TextBox Grid.Column="0"
+                                                 Grid.Row="1"
+                                                 Height="30"
+                                                 Width="410"
+                                                 Text="{Binding NewFileName, Mode=TwoWay}" />
+                                        <Label Content="Revision"
+                                               Grid.Row="0"
+                                               Grid.Column="1"
+                                               HorizontalContentAlignment="Center"
+                                               Foreground="White" />
+                                        <TextBox Grid.Column="1"
+                                                 Grid.Row="1"
+                                                 Text="{Binding RevisionNumber}"
+                                                 VerticalContentAlignment="Center"
+                                                 HorizontalContentAlignment="Center"
+                                                 HorizontalAlignment="Center"
+                                                 Width="50"
+                                                 Margin="15 0 15 0" />
+                                        <Button Grid.Column="2"
+                                                Grid.Row="1"
+                                                Width="100"
+                                                Content="Update"
+                                                HorizontalAlignment="Center"
+                                                BorderBrush="Black"
+                                                BorderThickness="0 0 3 3"
+                                                Command="{Binding ChangeFileNameCommand}"
+                                                Background="OrangeRed"
+                                                Foreground="White" />
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox Grid.Row="1"
+                                          Grid.Column="0"
+                                          Grid.ColumnSpan="3"
+                                          Header="Convert text to UPPER:"
+                                          Padding="5"
+                                          Foreground="White">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="auto" />
+                                            <ColumnDefinition Width="auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+                                        <Label Grid.Column="0"
+                                               Grid.Row="0"
+                                               Content="Input text to convert:"
+                                               Foreground="White" />
+                                        <TextBox Grid.Column="0"
+                                                 Grid.Row="1"
+                                                 Height="30"
+                                                 Grid.ColumnSpan="3"
+                                                 Text="{Binding InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBox Grid.Column="0"
+                                                 Grid.Row="5"
+                                                 Height="30"
+                                                 Margin="0 10 0 0"
+                                                 Grid.ColumnSpan="3"
+                                                 Text="{Binding InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource UpperCaseConverter}}"
+                                                 IsReadOnly="True"
+                                                 Foreground="Green" />
+
+                                    </Grid>
+                                </GroupBox>
+                                <GroupBox Header="Upload files to S:\... drive"
+                                          Grid.Row="2"
+                                          Grid.Column="0"
+                                          Grid.ColumnSpan="3"
+                                          Padding="5"
+                                          Foreground="White">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="3*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                            <RowDefinition Height="auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <Label Grid.Row="1"
+                                               Grid.Column="0"
+                                               Grid.ColumnSpan="3"
+                                               Height="35"
+                                               Content="{Binding CurrentLocalFilePath}"
+                                               Foreground="Yellow"
+                                               BorderBrush="Black"
+                                               BorderThickness="1" />
+                                        <Button Grid.Row="3"
+                                                Grid.Column="0"
+                                                Width="100"
+                                                Height="30"
+                                                HorizontalAlignment="Right"
+                                                Content="Get current"
+                                                BorderBrush="Black"
+                                                BorderThickness="0 0 3 3"
+                                                Command="{Binding GetCurrentLocalFileDwgCommand}" />
+                                        <Label Grid.Row="2"
+                                               Grid.Column="0"
+                                               Grid.ColumnSpan="3"
+                                               Height="35"
+                                               Margin="0 0 0 15"
+                                               Content="{Binding SDriveCompanyPath}"
+                                               Foreground="LawnGreen"
+                                               BorderBrush="Black"
+                                               BorderThickness="1" />
+                                        <Button Grid.Row="3"
+                                                Grid.Column="1"
+                                                Width="100"
+                                                Margin="0 0 5 0"
+                                                Content="Browse to S"
+                                                Background="CornflowerBlue"
+                                                HorizontalAlignment="Right"
+                                                BorderBrush="Black"
+                                                BorderThickness="0 0 3 3"
+                                                Command="{Binding GetSDriveProjectFolderCommand}" />
+                                        <Button Grid.Row="3"
+                                                Grid.Column="2"
+                                                Width="100"
+                                                Content="Push"
+                                                Background="OrangeRed"
+                                                BorderBrush="Black"
+                                                BorderThickness="0 0 3 3"
+                                                Foreground="White"
+                                                Command="{Binding PushFileToSDriveCommand}" />
+                                        <Expander Grid.Row="4"
+                                                  Margin="0 10 0 0"
+                                                  Grid.Column="0"
+                                                  Grid.ColumnSpan="3"
+                                                  Header="Current folder"
+                                                  Foreground="White"
+                                                  IsExpanded="{Binding IsExpandedHistoryPath}">
+                                            <ListView ItemsSource="{Binding FilePathToListView}"
+                                                      SelectedItem="{Binding SelectHistoryPath, Mode=TwoWay}"
+                                                      SelectionChanged="ListViewHistoryPath_SelectionChanged"
+                                                      Foreground="DarkBlue">
+                                            </ListView>
+                                        </Expander>
+                                    </Grid>
+                                </GroupBox>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </TabItem>
+        <TabItem Header="Format Style"
+                 Background="GreenYellow">
+            <Border Padding="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <GroupBox Grid.Row="0"
+                              Header="Input Style">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Row="0"
+                                   Grid.Column="0"
+                                   Content="Scale name: "
+                                   VerticalAlignment="Center" />
+                            <TextBox Grid.Row="0"
+                                     Grid.Column="1"
+                                     Text="{Binding TextStyleName, Mode=TwoWay}"/>
+                            <Button Grid.Row="0"
+                                    Grid.Column="2"
+                                    Content="Create"
+                                    Width="100"
+                                    HorizontalAlignment="Left"
+                                    Margin="15 0 10 0"
+                                    Command="{Binding CreateTextStyleCommand}"/>
+                            <Label Grid.Row="1"
+                                   Grid.Column="0"
+                                   Grid.ColumnSpan="3" />
+                        </Grid>
+                    </GroupBox>
+                    <StackPanel Grid.Row="1">
+                        <Label Content="New Text style was created successfully!" />
+                        <Label Content="New Dimension style was created successfully!" />
+                        <Label Content="New Multileader style was created successfully!" />
+                        <Label Content="New View port scale was created successfully!" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </TabItem>
+    </TabControl>
+
+</Window>
