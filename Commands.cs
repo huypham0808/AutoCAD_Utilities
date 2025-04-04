@@ -8,7 +8,7 @@ namespace ChangeFileName
 {
     public class Commands
     {
-        [CommandMethod("CSS_UtilitiesTool_V01", CommandFlags.Modal)]
+        [CommandMethod("CSS_UtilitiesTool_Beta", CommandFlags.Modal)]
         public void CallForm()
         {
             ChangeFileNameViewModel vM = new ChangeFileNameViewModel();

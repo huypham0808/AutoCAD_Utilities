@@ -1,0 +1,43 @@
+# Các thư mục build
+bin/
+obj/
+
+# Các thư mục Visual Studio
+.vs/
+*.suo
+*.user
+*.csproj.user
+*.resharper.user*
+
+# Các file package
+packages/
+
+# Các file tạm thời và log
+*.log
+*.tmp
+*.cache
+*.dump
+
+# Các file output của ReSharper
+_ReSharper.*
+*.ReSharper.*
+
+# Các file output của NUnit
+TestResults/
+*.nunit
+
+# Các file output của NuGet
+*.nupkg
+
+# Các file output của ClickOnce
+publish/
+
+# Các file output của SQL Server
+*.mdf
+*.ldf
+
+# Các file output của IIS Express
+.vs/config/applicationhost.config
+
+# Các file output của VS Code (nếu có)
+.vscode/

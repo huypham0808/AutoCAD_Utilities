@@ -217,7 +217,7 @@
                 </Border>
             </StackPanel>
         </TabItem>
-        <TabItem Header="Format Style"
+        <TabItem Header="New Format Style"
                  Background="GreenYellow">
             <Border Padding="10">
                 <Grid>
@@ -239,21 +239,33 @@
                             </Grid.ColumnDefinitions>
                             <Label Grid.Row="0"
                                    Grid.Column="0"
-                                   Content="Scale name: "
+                                   Content="Scale number: "
                                    VerticalAlignment="Center" />
                             <TextBox Grid.Row="0"
                                      Grid.Column="1"
                                      Text="{Binding TextStyleName, Mode=TwoWay}"/>
-                            <Button Grid.Row="0"
-                                    Grid.Column="2"
-                                    Content="Create"
-                                    Width="100"
+                            <Button Grid.Row="1"
+                                    Grid.Column="0"
+                                    Content="Create Text Style"
+                                    Width="150"
                                     HorizontalAlignment="Left"
-                                    Margin="15 0 10 0"
+                                    Margin="0 10 0 10"
                                     Command="{Binding CreateTextStyleCommand}"/>
-                            <Label Grid.Row="1"
-                                   Grid.Column="0"
-                                   Grid.ColumnSpan="3" />
+                            <Button Grid.Row="1"
+                                    Grid.Column="1"
+                                    Content="Create Dim Style"
+                                    Width="150"
+                                    HorizontalAlignment="Center"
+                                    Margin="10 10 0 10"
+                                    Command="{Binding CreateDimStyleCommand}" />
+                            <Button Grid.Row="1"
+                                    Grid.Column="2"
+                                    Content="Create Multileader Style"
+                                    Width="180"
+                                    HorizontalAlignment="Left"
+                                    Margin="10 10 0 10"
+                                    Command="{Binding CreateMultileaderCommand}" />
+
                         </Grid>
                     </GroupBox>
                     <StackPanel Grid.Row="1">
