@@ -23,9 +23,8 @@
     <TabControl BorderThickness="0"
                 BorderBrush="Transparent">
         <TabItem Header="Utility"
-                 Background="Orange"
                  Width="100">
-            <StackPanel Background="#FF3B4453"
+            <StackPanel 
                         Orientation="Vertical">
                 <Border Padding="10">
                     <Grid>
@@ -49,7 +48,7 @@
                                           Grid.Column="0"
                                           Grid.ColumnSpan="3"
                                           Padding="5"
-                                          Foreground="White">
+                                          >
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="auto" />
@@ -63,7 +62,7 @@
                                         <Label Grid.Row="0"
                                                Grid.Column="0"
                                                Content="Input file name"
-                                               Foreground="White" />
+                                               />
                                         <TextBox Grid.Column="0"
                                                  Grid.Row="1"
                                                  Height="30"
@@ -73,7 +72,7 @@
                                                Grid.Row="0"
                                                Grid.Column="1"
                                                HorizontalContentAlignment="Center"
-                                               Foreground="White" />
+                                               />
                                         <TextBox Grid.Column="1"
                                                  Grid.Row="1"
                                                  Text="{Binding RevisionNumber}"
@@ -91,7 +90,7 @@
                                                 BorderThickness="0 0 3 3"
                                                 Command="{Binding ChangeFileNameCommand}"
                                                 Background="OrangeRed"
-                                                Foreground="White" />
+                                                />
                                     </Grid>
                                 </GroupBox>
                                 <GroupBox Grid.Row="1"
@@ -99,7 +98,7 @@
                                           Grid.ColumnSpan="3"
                                           Header="Convert text to UPPER:"
                                           Padding="5"
-                                          Foreground="White">
+                                          >
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
@@ -114,7 +113,7 @@
                                         <Label Grid.Column="0"
                                                Grid.Row="0"
                                                Content="Input text to convert:"
-                                               Foreground="White" />
+                                               />
                                         <TextBox Grid.Column="0"
                                                  Grid.Row="1"
                                                  Height="30"
@@ -136,7 +135,7 @@
                                           Grid.Column="0"
                                           Grid.ColumnSpan="3"
                                           Padding="5"
-                                          Foreground="White">
+                                          >
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="3*" />
@@ -156,7 +155,7 @@
                                                Grid.ColumnSpan="3"
                                                Height="35"
                                                Content="{Binding CurrentLocalFilePath}"
-                                               Foreground="Yellow"
+                                               Foreground="Blue"
                                                BorderBrush="Black"
                                                BorderThickness="1" />
                                         <Button Grid.Row="3"
@@ -194,14 +193,14 @@
                                                 Background="OrangeRed"
                                                 BorderBrush="Black"
                                                 BorderThickness="0 0 3 3"
-                                                Foreground="White"
+                                                
                                                 Command="{Binding PushFileToSDriveCommand}" />
                                         <Expander Grid.Row="4"
                                                   Margin="0 10 0 0"
                                                   Grid.Column="0"
                                                   Grid.ColumnSpan="3"
                                                   Header="Current folder"
-                                                  Foreground="White"
+                                                 
                                                   IsExpanded="{Binding IsExpandedHistoryPath}">
                                             <ListView ItemsSource="{Binding FilePathToListView}"
                                                       SelectedItem="{Binding SelectHistoryPath, Mode=TwoWay}"
@@ -217,8 +216,7 @@
                 </Border>
             </StackPanel>
         </TabItem>
-        <TabItem Header="New Format Style"
-                 Background="GreenYellow">
+        <TabItem Header="New Format Style">
             <Border Padding="10">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -229,7 +227,7 @@
                               Header="Input Style">
                         <Grid>
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="30" />
+                                <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
@@ -243,14 +241,27 @@
                                    VerticalAlignment="Center" />
                             <TextBox Grid.Row="0"
                                      Grid.Column="1"
-                                     Text="{Binding TextStyleName, Mode=TwoWay}"/>
-                            <Button Grid.Row="1"
+                                     Text="{Binding TextStyleName, Mode=TwoWay}" />
+                            <Button Grid.Row="0"
+                                    Grid.Column="2"
+                                    Content="Create alls"
+                                    Width="85"
+                                    Command="{Binding CreatAllCommands}" />
+                            <StackPanel Grid.Row="1"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="3"
+                                        Orientation="Horizontal"
+                                        Margin="0 20 0 0"
+                                        HorizontalAlignment="Center">
+                            </StackPanel>
+
+                            <!--<Button Grid.Row="1"
                                     Grid.Column="0"
                                     Content="Create Text Style"
                                     Width="150"
                                     HorizontalAlignment="Left"
-                                    Margin="0 10 0 10"
-                                    Command="{Binding CreateTextStyleCommand}"/>
+                                    Margin="0 8 0 8"
+                                    Command="{Binding CreateTextStyleCommand}" />
                             <Button Grid.Row="1"
                                     Grid.Column="1"
                                     Content="Create Dim Style"
@@ -264,19 +275,29 @@
                                     Width="180"
                                     HorizontalAlignment="Left"
                                     Margin="10 10 0 10"
+                                    Command="{Binding CreateMultileaderCommand}" />-->
+                            <Button Grid.Row="1"
+                                    Grid.Column="1"
+                                    Content="Create Callout"
+                                    Width="150"
+                                    HorizontalAlignment="Center"
+                                    Margin="10 10 0 10"
                                     Command="{Binding CreateMultileaderCommand}" />
 
                         </Grid>
                     </GroupBox>
                     <StackPanel Grid.Row="1">
-                        <Label Content="New Text style was created successfully!" />
-                        <Label Content="New Dimension style was created successfully!" />
+                        <Label Content="{Binding StatusCreateTextStyle}"
+                               Foreground="{Binding ColorTextOriginal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Label Content="{Binding StatusCreateDimStyle}"
+                               Foreground="{Binding ColorTextOriginal, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         <Label Content="New Multileader style was created successfully!" />
                         <Label Content="New View port scale was created successfully!" />
                     </StackPanel>
                 </Grid>
             </Border>
         </TabItem>
+
     </TabControl>
 
 </Window>

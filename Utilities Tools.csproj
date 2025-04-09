@@ -34,6 +34,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <StartAction>Program</StartAction>
+    <StartProgram>C:\Program Files\Autodesk\AutoCAD 2021\acad.exe</StartProgram>
+    <StartArguments>/nologo /b "start.scr"</StartArguments>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="accoremgd">
@@ -89,6 +92,7 @@
     <None Include="Start.scr">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Template\Template Test - 02.dwg" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\FileNameWindow.xaml">

@@ -41,3 +41,4 @@ D:\4.PERSONAL\5.CODING\18.CAD_Tool\utilities-tool-cad\obj\Debug\Utilities Tools.
 D:\4.PERSONAL\5.CODING\18.CAD_Tool\utilities-tool-cad\obj\Debug\Utilities Tools.csproj.CopyComplete
 D:\4.PERSONAL\5.CODING\18.CAD_Tool\utilities-tool-cad\obj\Debug\UtilitiesTool_V4.dll
 D:\4.PERSONAL\5.CODING\18.CAD_Tool\utilities-tool-cad\obj\Debug\UtilitiesTool_V4.pdb
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\utilities-tool-cad\obj\Debug\Utilities Tools.csproj.AssemblyReference.cache

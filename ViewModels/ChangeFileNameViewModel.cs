@@ -30,6 +30,7 @@ namespace ChangeFileName.ViewModels
         public ICommand CreateTextStyleCommand { get; }
         public ICommand CreateDimStyleCommand { get; }
         public ICommand CreateMultileaderCommand { get; }
+        public ICommand CreatAllCommands { get; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
@@ -97,13 +98,13 @@ namespace ChangeFileName.ViewModels
             get { return _colorTextOriginal; }
             set
             {
-                if(ResultText == "Text will be converted to UPPER here!")
+                if(ResultText == "Text will be converted to UPPER here!" || StatusCreateTextStyle == TextStyleFail || StatusCreateDimStyle == DimStyleFail)
                 {
-                    _colorTextOriginal = Brushes.DarkGray;
+                    _colorTextOriginal = Brushes.Blue;
                 }
                 else
                 {
-                    _colorTextOriginal = value;
+                    _colorTextOriginal = Brushes.Pink;
                     OnPropertyChanged(nameof(ColorTextOriginal));
                 }
 ;
@@ -200,6 +201,26 @@ namespace ChangeFileName.ViewModels
                 OnPropertyChanged(nameof(TextStyleName));
             }
         }
+        private string _statusCreateTextStyle;
+
+        public string StatusCreateTextStyle
+        {
+            get { return _statusCreateTextStyle; }
+            set 
+            { 
+                _statusCreateTextStyle = value;
+                OnPropertyChanged(nameof(StatusCreateTextStyle));
+            }
+        }
+        private string _statusCreateDimStyle;
+
+        public string StatusCreateDimStyle
+        {
+            get { return _statusCreateDimStyle; }
+            set { _statusCreateDimStyle = value; OnPropertyChanged(nameof(StatusCreateDimStyle)); }
+        }
+
+
         private string _textStyleDone = "New Text style was created successfully!";
         private string _dimStyleDone = "New Dimension style was created successfully!";
         private string _multileaderStyleDone = "New Multileader style was created successfully!";
@@ -220,20 +241,22 @@ namespace ChangeFileName.ViewModels
             set { _multileaderStyleDone = value; OnPropertyChanged(nameof(MultileaderStyleDone)); }
         }
         private string _textStyleFail = "Text style wasn't created!";
+        private string _dimStyleFail = "Dimension style wasn't created!";
+        private string _multileaderFail = "Multileader style wasn't created!";
 
         public string TextStyleFail
         {
             get { return _textStyleFail; }
             set { _textStyleFail = value; OnPropertyChanged(nameof(TextStyleFail)); }
         }
-        private string _dimStyleFail = "Dimension style wasn't created!";
+
 
         public string DimStyleFail
         {
             get { return _dimStyleFail; }
             set { _dimStyleFail = value; OnPropertyChanged(nameof(DimStyleFail)); }
         }
-        private string _multileaderFail = "Multileader style wasn't created!";
+
 
         public string MultileaderFail
         {
@@ -262,8 +285,10 @@ namespace ChangeFileName.ViewModels
             CreateDimStyleCommand = new RelayCommand(CreateNewDimStyle);
             CreateMultileaderCommand = new RelayCommand(CreateNewMultileader);
             LoadDataFromXmlFile();
-            
-            
+            StatusCreateTextStyle = "None!";
+            StatusCreateDimStyle = "None!";
+            CreatAllCommands = new RelayCommand(CreateAlls);
+            CreateMultileaderCommand = new RelayCommand(CreateNewMultileader);
         }
         //Method
         private void ChangeShopDrawingFile()
@@ -447,6 +472,7 @@ namespace ChangeFileName.ViewModels
                     if(st.Has(TextStyleName))
                     {
                         UtilMethod.WarningMessageBox($"Text style {TextStyleName} is existing already!", "AutoCAD");
+                        StatusCreateTextStyle = TextStyleFail;
                         return;
                     }
                     ObjectId style16ID = st["16"];
@@ -471,7 +497,8 @@ namespace ChangeFileName.ViewModels
                     trans.AddNewlyCreatedDBObject(newStyle, true);
                     trans.Commit();
                     UtilMethod.WarningMessageBox($"Text style {TextStyleName} was created successfully!", "AutoCAD");
-
+                    StatusCreateTextStyle = TextStyleDone;
+                    db.Textstyle = newStyle.ObjectId;
                 }
             }
             catch (Exception ex)
@@ -490,32 +517,101 @@ namespace ChangeFileName.ViewModels
                 using (var trans = db.TransactionManager.StartTransaction())
                 {
                     doc.LockDocument();
-
+                    // Open the DimStyle table for read
                     DimStyleTable dst = (DimStyleTable)trans.GetObject(db.DimStyleTableId, OpenMode.ForRead);
-                    //Check dimension style isExisting
-                    if (dst.Has("Scale " + TextStyleName))
-                    {
-                        UtilMethod.WarningMessageBox($"Dimension style Scale {TextStyleName} is existing already!", "AutoCAD");
-                        return;
-                    }
+                    string strDimStyleName = "Scale " + TextStyleName;
+
+                    DimStyleTableRecord acDimStyleTblRec;
                     ObjectId dimStyleID16 = dst["Scale 16"];
                     DimStyleTableRecord dimStyle16 = (DimStyleTableRecord)trans.GetObject(dimStyleID16, OpenMode.ForRead);
 
-                    //Create new dimension style base on style 16
-                    DimStyleTableRecord newDimStyle = new DimStyleTableRecord();
-                    newDimStyle.Name = "Scale " + TextStyleName;
-                    //Clone properties of Style 16
-                    newDimStyle.CopyFrom(dimStyle16);
-                    //newDimStyle.Dimgap = dimStyle16.Dimgap;
-                    int textStyleNum = Convert.ToInt32(TextStyleName);
-                    newDimStyle.Dimscale = textStyleNum;
+                    // Check to see if the dimension style exists or not
+                    if (dst.Has(strDimStyleName) == false)
+                    {
+                        if (dst.IsWriteEnabled == false) trans.GetObject(db.DimStyleTableId, OpenMode.ForWrite);
 
-                    //Ad dimension style to table 
-                    dst.UpgradeOpen();
-                    ObjectId newDimStyleID = dst.Add(newDimStyle);
-                    trans.AddNewlyCreatedDBObject(newDimStyle, true);
+                        acDimStyleTblRec = new DimStyleTableRecord();
+                        acDimStyleTblRec.Name = strDimStyleName;
+
+                        dst.Add(acDimStyleTblRec);
+                        trans.AddNewlyCreatedDBObject(acDimStyleTblRec, true);
+                    }
+                    else
+                    {
+                        acDimStyleTblRec = trans.GetObject(dst[strDimStyleName],
+                                                                OpenMode.ForWrite) as DimStyleTableRecord;
+                    }
+                    acDimStyleTblRec.CopyFrom(dimStyle16);
+                    acDimStyleTblRec.Name = strDimStyleName;
+                    int textStyleNum = Convert.ToInt32(TextStyleName);
+                    acDimStyleTblRec.Dimscale = textStyleNum;
+                    dimStyle16.Dispose();
                     trans.Commit();
-                    UtilMethod.WarningMessageBox($"Dimension style Scale {TextStyleName} was created successfully!", "AutoCAD");
+                    UtilMethod.WarningMessageBox("Done", "AutoCAD");
+                    StatusCreateDimStyle = DimStyleDone;
+                    db.Dimstyle = acDimStyleTblRec.ObjectId;
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilMethod.WarningMessageBox($"An error occurs: {ex.Message}", "Error");
+                StatusCreateDimStyle = DimStyleFail;
+                return;
+            }
+        }
+        private void CreateNewMultileader()
+        {
+            Document doc = UtilMethod.AcadDoc();
+            Database db = UtilMethod.AcadDb();
+            double textStyleNum = Convert.ToInt32(TextStyleName);
+            try
+            {
+                using (var trans = db.TransactionManager.StartTransaction())
+                {
+ 
+                    ObjectId mlSTableId = db.MLeaderStyleDictionaryId;
+                    DBDictionary mlSTable = (DBDictionary)trans.GetObject(mlSTableId, OpenMode.ForRead);
+
+                    if (mlSTable.Contains(TextStyleName))
+                    {
+                        MessageBox.Show("Create multileader fail!", "AutoCAD Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        return;
+                    }
+                    ObjectId standardMLeaderStyleId = (ObjectId)mlSTable["16"];
+                    MLeaderStyle standardMLeaderStyle = (MLeaderStyle)trans.GetObject(standardMLeaderStyleId, OpenMode.ForRead);
+                    //add a new mleader style...
+                    MLeaderStyle newMleaderStyle = new MLeaderStyle();
+                    newMleaderStyle.Name = TextStyleName;
+
+                    newMleaderStyle.ContentType = standardMLeaderStyle.ContentType;
+                    newMleaderStyle.ContentType = standardMLeaderStyle.ContentType;
+                    newMleaderStyle.EnableDogleg = standardMLeaderStyle.EnableDogleg;
+                    newMleaderStyle.LeaderLineColor = standardMLeaderStyle.LeaderLineColor;
+                    newMleaderStyle.LeaderLineTypeId = standardMLeaderStyle.LeaderLineTypeId;
+                    newMleaderStyle.LeaderLineWeight = standardMLeaderStyle.LeaderLineWeight;
+                    newMleaderStyle.LeaderLineType = standardMLeaderStyle.LeaderLineType;
+                    newMleaderStyle.TextAlignmentType = standardMLeaderStyle.TextAlignmentType;
+                    newMleaderStyle.TextColor = standardMLeaderStyle.TextColor;
+                    newMleaderStyle.Scale = standardMLeaderStyle.Scale;
+
+                    ObjectId textStyleTableId = db.TextStyleTableId;
+                    TextStyleTable textStyleTable = (TextStyleTable)trans.GetObject(textStyleTableId, OpenMode.ForRead);
+                    ObjectId textStyleID = textStyleTable[TextStyleName];
+                    newMleaderStyle.TextStyleId = textStyleID;
+                    newMleaderStyle.MaxLeaderSegmentsPoints = 5;
+                    newMleaderStyle.LandingGap = 1 / 2 * (textStyleNum / 16);
+                    newMleaderStyle.ArrowSize = 1.25 * (textStyleNum / 16);
+                    newMleaderStyle.ArrowSymbolId = standardMLeaderStyle.ArrowSymbolId;
+                    newMleaderStyle.BreakSize = 11 / 16 * (textStyleNum / 16);
+                    newMleaderStyle.ContentType = standardMLeaderStyle.ContentType;
+                    newMleaderStyle.DoglegLength = 2 * textStyleNum / 16;
+                    ObjectId mleaderStyleId = newMleaderStyle.PostMLeaderStyleToDb(db, TextStyleName);
+                    mlSTable.UpgradeOpen();
+                    trans.AddNewlyCreatedDBObject(newMleaderStyle, true);
+                    mleaderStyleId = mlSTable.GetAt(TextStyleName);
+                    trans.Commit();
+                    MessageBox.Show("Create multileader!", "AutoCAD Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
                 }
             }
             catch (Exception ex)
@@ -523,11 +619,13 @@ namespace ChangeFileName.ViewModels
                 UtilMethod.WarningMessageBox($"An error occurs: {ex.Message}", "Error");
                 return;
             }
+ 
         }
-        private void CreateNewMultileader()
+        private void CreateAlls()
         {
-            MessageBox.Show("Create multileader!", "AutoCAD Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            return;
+            CreateNewTextStyle();
+            CreateNewDimStyle();
+            //CreateNewMultileader();
         }
     }
 }
