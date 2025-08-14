@@ -1,16 +1,17 @@
-﻿using System;
+﻿using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.Runtime;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Runtime.InteropServices;
-using Autodesk.AutoCAD.Runtime;
-using Autodesk.AutoCAD.ApplicationServices;
-using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.Geometry;
-using Autodesk.AutoCAD.EditorInput;
-
 using System.Windows.Forms;
+using AttributeCollection = Autodesk.AutoCAD.DatabaseServices.AttributeCollection;
 
 namespace FindReferTitleID
 {
@@ -25,8 +26,7 @@ namespace FindReferTitleID
         private static List<BlockData> blockDataList = new List<BlockData>();
         private static ListView listView;
 
-
-        [CommandMethod("CSS_FindRefer")]
+        [CommandMethod("CSS_AutoRefer")]
         public void CSS_FindRefer()
         {
             Document currentDocument = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
@@ -78,13 +78,13 @@ namespace FindReferTitleID
                         string fieldExpression = "%<\\AcObjProp Object(%<\\_ObjId " + mTextObjectId.ToString() + ">%).TextString>%";
                         using (AttributeReference attributeToModify = transaction.GetObject(attributeId, OpenMode.ForWrite) as AttributeReference)
                         {
-                            attribute.UpgradeOpen();
-                            attributeToModify.TextString = fieldExpression;
-                            attribute.DowngradeOpen();                           
+                            if (attributeToModify.Tag == "S1") 
+                            {
+                                attribute.UpgradeOpen();
+                                attributeToModify.TextString = fieldExpression;
+                                attribute.DowngradeOpen();
+                            }                         
                         }
-                       //Get value of S1
-                       
-
                     }
                     //Get Coordinate of block reference
                     if (blockReference != null)
@@ -98,20 +98,15 @@ namespace FindReferTitleID
                         };
                         blockDataList.Add(blockData);
                     }
-                }
-                
-                //editor.Regen();
-                /*foreach (BlockData blockData in blockDataList)
-                {
-                    editor.WriteMessage($"\nBlock reference position: {blockData.ObjectId} X = {blockData.Position.X}, Y = {blockData.Position.Y}");
-                }*/
+                }              
+                editor.Regen();
                 editor.WriteMessage("Done");
-                // Commit the transaction
                 transaction.Commit();
             }
            
         }
         //Show Table display List Data
+
         [CommandMethod("CSS_ShowFindRefer")]
         public static void ShowFindRefe ()
         {
@@ -170,6 +165,104 @@ namespace FindReferTitleID
             ListViewItem lastItem = listView.Items.Count > 0 ? listView.Items[listView.Items.Count - 1] : null;
             if (lastItem != null)
                 lastItem.EnsureVisible();
+        }
+
+        [CommandMethod("CSS_SmartRefer")]
+        public void SmartRefer()
+        {
+            Document currentDocument = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Database currentDatabase = currentDocument.Database;
+            Editor editor = currentDocument.Editor;
+
+            // Prompt the user to select the TitleID block 1
+            PromptEntityOptions blockSection = new PromptEntityOptions("\nSelect the block Section_IDN1: ");
+            blockSection.SetRejectMessage("\nInvalid Block selection. Please select a block Section_IDN1.");
+            blockSection.AddAllowedClass(typeof(BlockReference), false);
+
+            PromptEntityResult blockSectionResult = editor.GetEntity(blockSection);
+            if (blockSectionResult.Status != PromptStatus.OK)
+                return;
+
+            // Prompt the user to select the TitleID block 2
+            PromptEntityOptions blockTitleID1 = new PromptEntityOptions("\nSelect the block TitleID1: ");
+            blockTitleID1.SetRejectMessage("\nInvalid Block selection. Please select a block TitleID1.");
+            blockTitleID1.AddAllowedClass(typeof(BlockReference), false);
+
+            PromptEntityResult blockTitleID1Result = editor.GetEntity(blockTitleID1);
+            if (blockSectionResult.Status != PromptStatus.OK)
+                return;
+
+            ObjectId blockTitleID1Id = blockTitleID1Result.ObjectId;
+            ObjectId blockSectionId = blockSectionResult.ObjectId;
+            using (Transaction tr = currentDatabase.TransactionManager.StartTransaction())
+            {
+                BlockReference br = tr.GetObject(blockTitleID1Id, OpenMode.ForRead) as BlockReference;
+                AttributeCollection blockTitleID1Collection = br.AttributeCollection;
+                if (br == null)
+                {
+                    editor.WriteMessage("\nNot a valid block reference.");
+                    return;
+                }
+
+                // Bước 3: Duyệt qua các attribute
+                ObjectId tag1Id = ObjectId.Null;
+                ObjectId tagS1Id = ObjectId.Null;
+
+                foreach (ObjectId attId in blockTitleID1Collection)
+                {
+                    AttributeReference attRef = tr.GetObject(attId, OpenMode.ForRead) as AttributeReference;
+                    if (attRef != null)
+                    {
+                        if (attRef.Tag.Equals("1", StringComparison.OrdinalIgnoreCase))
+                        {
+                            tag1Id = attId;
+                        }
+                        else if (attRef.Tag.Equals("S1", StringComparison.OrdinalIgnoreCase))
+                        {
+                            tagS1Id = attId;
+                        }
+                    }
+                }
+                string tag1IdConvert = tag1Id.ToString();
+                tag1IdConvert = tag1IdConvert.Replace("(", "").Replace(")", "");
+                string tagS1IdConvert = tagS1Id.ToString();
+                tagS1IdConvert = tagS1IdConvert.Replace("(", "").Replace(")", "");
+
+                string fieldExpressionTag1 = "%<\\AcObjProp Object(%<\\_ObjId " + tag1IdConvert.ToString() + ">%).TextString>%";
+                string fieldExpressionTagS = "%<\\AcObjProp Object(%<\\_ObjId " + tagS1IdConvert.ToString() + ">%).TextString>%";
+
+                BlockReference brSection = tr.GetObject(blockSectionId, OpenMode.ForRead) as BlockReference;
+                AttributeCollection blockSectionCollection = brSection.AttributeCollection;
+                if (brSection == null)
+                {
+                    editor.WriteMessage("\nNot a valid block reference.");
+                    return;
+                }
+                foreach (ObjectId attributeId in blockSectionCollection)
+                {
+                    AttributeReference attribute = tr.GetObject(attributeId, OpenMode.ForRead) as AttributeReference;
+                    // Create the field expression
+                    using (AttributeReference attributeToModify = tr.GetObject(attributeId, OpenMode.ForWrite) as AttributeReference)
+                    {
+                        switch (attributeToModify.Tag)
+                        {
+                            case "1":
+                                attribute.UpgradeOpen();
+                                attributeToModify.TextString = fieldExpressionTag1;
+                                attribute.DowngradeOpen();
+                                break;
+                            case "S1":
+                                attribute.UpgradeOpen();
+                                attributeToModify.TextString = fieldExpressionTagS;
+                                attribute.DowngradeOpen();
+                                break;
+                        }
+                    }
+                }
+                editor.Regen();
+                editor.WriteMessage("Refer successfully");
+                tr.Commit();
+            }
         }
     }
 }

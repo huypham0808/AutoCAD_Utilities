@@ -1,0 +1,57 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\HUY\\7.NET C SHARP\\CAD_API\\AutoCAD_Utilities\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E8936EA9-D2A8-45B1-B2B8-651240B3AA8A}|FindReferTitleID\\FindReferTitleID.csproj|d:\\huy\\7.net c sharp\\cad_api\\autocad_utilities\\findrefertitleid\\findrefer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E8936EA9-D2A8-45B1-B2B8-651240B3AA8A}|FindReferTitleID\\FindReferTitleID.csproj|solutionrelative:findrefertitleid\\findrefer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 5,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FindRefer.cs",
+              "DocumentMoniker": "D:\\HUY\\7.NET C SHARP\\CAD_API\\AutoCAD_Utilities\\FindReferTitleID\\FindRefer.cs",
+              "RelativeDocumentMoniker": "FindReferTitleID\\FindRefer.cs",
+              "ToolTip": "D:\\HUY\\7.NET C SHARP\\CAD_API\\AutoCAD_Utilities\\FindReferTitleID\\FindRefer.cs",
+              "RelativeToolTip": "FindReferTitleID\\FindRefer.cs",
+              "ViewState": "AgIAAKgAAAAAAAAAAAAywOsAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-14T13:46:09.946Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
