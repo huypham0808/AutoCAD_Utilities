@@ -2,35 +2,34 @@
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
-using Autodesk.AutoCAD.Runtime;
-using Autodesk.AutoCAD.Windows;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using AttributeCollection = Autodesk.AutoCAD.DatabaseServices.AttributeCollection;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
 namespace FindReferTitleID
 {
-    public class FindRefer
+    /// <summary>
+    /// Interaction logic for mainForm.xaml
+    /// </summary>
+    public partial class mainForm : Window
     {
-        static PaletteSet palette;
-        static bool wasVisible;
-        private class BlockData
+        public mainForm()
         {
-            public ObjectId ObjectId { get; set; }
-            public Point2d Position { get; set; }
+            InitializeComponent();
         }
 
-        private static List<BlockData> blockDataList = new List<BlockData>();
-        private static ListView listView;
-
-        [CommandMethod("CSS_AutoRefer")]
-        public void CSS_FindRefer()
+        private void btnbtnTileIDSheet_Click(object sender, RoutedEventArgs e)
         {
             Document currentDocument = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Database currentDatabase = currentDocument.Database;
@@ -58,11 +57,8 @@ namespace FindReferTitleID
             ObjectId mTextObjectIdOrigin = new ObjectId();
             mTextObjectIdOrigin = mTextResult.ObjectId;
 
-
-
             string mTextObjectId = mTextObjectIdOrigin.ToString();
             mTextObjectId = mTextObjectId.Replace("(", "").Replace(")", "");
-
 
             // Start the transaction
             using (Transaction transaction = currentDatabase.TransactionManager.StartTransaction())
@@ -81,97 +77,22 @@ namespace FindReferTitleID
                         string fieldExpression = "%<\\AcObjProp Object(%<\\_ObjId " + mTextObjectId.ToString() + ">%).TextString>%";
                         using (AttributeReference attributeToModify = transaction.GetObject(attributeId, OpenMode.ForWrite) as AttributeReference)
                         {
-                            if (attributeToModify.Tag == "S1") 
+                            if (attributeToModify.Tag == "S1")
                             {
                                 attribute.UpgradeOpen();
                                 attributeToModify.TextString = fieldExpression;
                                 attribute.DowngradeOpen();
-                            }                         
+                            }
                         }
                     }
-                    //Get Coordinate of block reference
-                    if (blockReference != null)
-                    {
-                        Point3d blockPosition = blockReference.Position;
-                        Point2d blockPosition2D = new Point2d(blockPosition.X, blockPosition.Y);
-                        BlockData blockData = new BlockData
-                        {
-                            ObjectId = entityResult.ObjectId,
-                            Position = blockPosition2D
-                        };
-                        blockDataList.Add(blockData);
-                    }
-                }              
+                }
                 editor.Regen();
                 editor.WriteMessage("Done");
                 transaction.Commit();
             }
-           
-        }
-        //Show Table display List Data
-
-        [CommandMethod("CSS_ShowFindRefer")]
-        public static void ShowFindRefe ()
-        {
-            Document currentDocument = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-            Database currentDatabase = currentDocument.Database;
-            Editor editor = currentDocument.Editor;
-            //Show List Data
-            if (blockDataList.Count > 0)
-            {
-                if (listView == null || listView.IsDisposed)
-                    CreateListViewForm();
-
-                //RefreshListView();
-            }
-            else
-            {
-                editor.WriteMessage("\nNo TitleID found.");
-            }
-        }
-        private static void CreateListViewForm()
-        {
-            Form form = new Form();
-            form.Text = "Block Data List";
-            form.Size = new System.Drawing.Size(400, 300);
-
-            listView = new ListView();
-            listView.Dock = DockStyle.Fill;
-            listView.View = View.Details;
-            listView.Columns.Add("Object ID", 200);
-            listView.Columns.Add("Position X", 100);
-            listView.Columns.Add("Position Y", 100);
-
-            form.Controls.Add(listView);
-
-            form.FormClosing += (sender, e) =>
-            {
-                listView = null;
-                blockDataList.Clear();
-            };
-
-            form.Show();
-        }
-        private static void RefreshListView()
-        {
-            //listView.Items.Clear();
-
-            foreach (BlockData blockData in blockDataList)
-            {
-                ListViewItem item = new ListViewItem(blockData.ObjectId.ToString());
-                item.SubItems.Add(blockData.Position.X.ToString());
-                item.SubItems.Add(blockData.Position.Y.ToString());
-
-                listView.Items.Add(item);
-            }
-
-            ListViewItem lastItem = listView.Items.Count > 0 ? listView.Items[listView.Items.Count - 1] : null;
-            if (lastItem != null)
-                lastItem.EnsureVisible();
         }
 
-        [CommandMethod("CSS_SmartRefer1")]
-        public void SmartRefer()
+        private void btnSectionTileID_Click(object sender, RoutedEventArgs e)
         {
             Document currentDocument = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Database currentDatabase = currentDocument.Database;
@@ -267,38 +188,10 @@ namespace FindReferTitleID
                 tr.Commit();
             }
         }
-        [CommandMethod("CSS_SmartRefer2")]
-        public void CallFormSmartRefer2()
-        { 
-            if (palette == null)
-            {
-                palette = new PaletteSet("CSS SMART REFER", "CSS_SMARTREFER", new Guid("{3C23279E-18B9-4920-BA41-ECE7BCD0119F}"));
-                palette.Style = PaletteSetStyles.ShowAutoHideButton |
-                                PaletteSetStyles.ShowCloseButton |
-                                PaletteSetStyles.ShowPropertiesMenu;
-                palette.MinimumSize = new System.Drawing.Size(80, 100);
-                palette.AddVisual("Tab 1", new mainForm());
 
-                var docs = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager;
-                docs.DocumentBecameCurrent += (s, e) => palette.Visible = e.Document == null ? false : wasVisible;
-                docs.DocumentCreated += (s, e) => palette.Visible = wasVisible;
-                docs.DocumentToBeDeactivated += (s, e) => wasVisible = palette.Visible;
-                docs.DocumentToBeDestroyed += (s, e) =>
-                {
-                    wasVisible = palette.Visible;
-                    if (docs.Count == 1)
-                        palette.Visible = false;
-                };
-            }
-            palette.Visible = true;
-            palette.DockEnabled = DockSides.None;
-            palette.RolledUp = true;
-        }
-        [CommandMethod("CSS_SmartRefer")]
-        public void CallFormSmartRefer()
+        private void btnbtnFindTitleID_Click(object sender, RoutedEventArgs e)
         {
-            mainForm referWindow = new mainForm();
-            referWindow.Show();
+            MessageBox.Show("Find TitleID");
         }
     }
 }

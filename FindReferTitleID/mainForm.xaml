@@ -1,0 +1,89 @@
+﻿<Window x:Class="FindReferTitleID.mainForm"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:FindReferTitleID"
+             mc:Ignorable="d"
+             FontSize="14"
+             d:DesignHeight="220"
+             d:DesignWidth="130"
+             MaxHeight="220"
+             MinHeight="220"
+             MaxWidth="130"
+             MinWidth="130"
+             Width="130"
+             Height="220"
+             Background="#3B4453">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Foreground"
+                    Value="White" />
+            <Setter Property="Padding"
+                    Value="10" />
+            <Setter  Property="BorderBrush"
+                     Value="Black" />
+            <Setter Property="BorderThickness"
+                    Value="0 0 4 4" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver"
+                                     Value="True">
+                                <Setter Property="Background"
+                                        Value="Green" />
+                            </Trigger>
+                            <Trigger Property="IsPressed"
+                                     Value="True">
+                                <Setter Property="Background"
+                                        Value="DarkBlue" />
+                                <Setter Property="Foreground"
+                                        Value="White" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled"
+                                     Value="False">
+                                <Setter Property="Opacity"
+                                        Value="0.5" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Border Padding="10">
+        <Grid>
+            <StackPanel>
+                <Button Content="TitleID-Sheet"
+                        Height="50"
+                        Background="Green"
+                        x:Name="btnTileIDSheet"
+                        Click="btnbtnTileIDSheet_Click"
+                        Cursor="Hand" />
+                <Button Content="Section-TitleID"
+                        Height="50"
+                        Margin="0 10 0 0"
+                        Background="Red"
+                        x:Name="btnSectionTileID"
+                        Click="btnSectionTileID_Click"
+                        Cursor="Hand" />
+                <Button Content="Find TitleID"
+                        Height="50"
+                        Margin="0 10 0 0"
+                        Background="Yellow"
+                        Foreground="Black"
+                        x:Name="btnFindTitleID"
+                        Click="btnbtnFindTitleID_Click"
+                        Cursor="Hand" />
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

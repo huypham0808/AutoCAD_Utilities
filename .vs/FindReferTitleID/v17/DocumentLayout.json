@@ -5,6 +5,14 @@
     {
       "AbsoluteMoniker": "D:0:0:{E8936EA9-D2A8-45B1-B2B8-651240B3AA8A}|FindReferTitleID\\FindReferTitleID.csproj|d:\\huy\\7.net c sharp\\cad_api\\autocad_utilities\\findrefertitleid\\findrefer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E8936EA9-D2A8-45B1-B2B8-651240B3AA8A}|FindReferTitleID\\FindReferTitleID.csproj|solutionrelative:findrefertitleid\\findrefer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E8936EA9-D2A8-45B1-B2B8-651240B3AA8A}|FindReferTitleID\\FindReferTitleID.csproj|d:\\huy\\7.net c sharp\\cad_api\\autocad_utilities\\findrefertitleid\\mainform.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E8936EA9-D2A8-45B1-B2B8-651240B3AA8A}|FindReferTitleID\\FindReferTitleID.csproj|solutionrelative:findrefertitleid\\mainform.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E8936EA9-D2A8-45B1-B2B8-651240B3AA8A}|FindReferTitleID\\FindReferTitleID.csproj|d:\\huy\\7.net c sharp\\cad_api\\autocad_utilities\\findrefertitleid\\mainform.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E8936EA9-D2A8-45B1-B2B8-651240B3AA8A}|FindReferTitleID\\FindReferTitleID.csproj|solutionrelative:findrefertitleid\\mainform.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,13 +46,38 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "mainForm.xaml.cs",
+              "DocumentMoniker": "D:\\HUY\\7.NET C SHARP\\CAD_API\\AutoCAD_Utilities\\FindReferTitleID\\mainForm.xaml.cs",
+              "RelativeDocumentMoniker": "FindReferTitleID\\mainForm.xaml.cs",
+              "ToolTip": "D:\\HUY\\7.NET C SHARP\\CAD_API\\AutoCAD_Utilities\\FindReferTitleID\\mainForm.xaml.cs",
+              "RelativeToolTip": "FindReferTitleID\\mainForm.xaml.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAA2wBUAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-15T15:07:30.669Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "mainForm.xaml",
+              "DocumentMoniker": "D:\\HUY\\7.NET C SHARP\\CAD_API\\AutoCAD_Utilities\\FindReferTitleID\\mainForm.xaml",
+              "RelativeDocumentMoniker": "FindReferTitleID\\mainForm.xaml",
+              "ToolTip": "D:\\HUY\\7.NET C SHARP\\CAD_API\\AutoCAD_Utilities\\FindReferTitleID\\mainForm.xaml",
+              "RelativeToolTip": "FindReferTitleID\\mainForm.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-08-15T14:58:09.572Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 0,
               "Title": "FindRefer.cs",
               "DocumentMoniker": "D:\\HUY\\7.NET C SHARP\\CAD_API\\AutoCAD_Utilities\\FindReferTitleID\\FindRefer.cs",
               "RelativeDocumentMoniker": "FindReferTitleID\\FindRefer.cs",
               "ToolTip": "D:\\HUY\\7.NET C SHARP\\CAD_API\\AutoCAD_Utilities\\FindReferTitleID\\FindRefer.cs",
               "RelativeToolTip": "FindReferTitleID\\FindRefer.cs",
-              "ViewState": "AgIAAKgAAAAAAAAAAAAywOsAAAAmAAAAAAAAAA==",
+              "ViewState": "AgIAABcBAAAAAAAAAAA0wCYBAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-14T13:46:09.946Z",
               "EditorCaption": ""
