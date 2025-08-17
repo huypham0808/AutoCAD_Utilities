@@ -20,3 +20,5 @@ D:\HUY\7.NET C SHARP\CAD_API\AutoCAD_Utilities\FindReferTitleID\obj\Debug\FindRe
 D:\HUY\7.NET C SHARP\CAD_API\AutoCAD_Utilities\FindReferTitleID\obj\Debug\FindReferTitleID_MarkupCompile.lref
 D:\HUY\7.NET C SHARP\CAD_API\AutoCAD_Utilities\FindReferTitleID\obj\Debug\mainForm.baml
 D:\HUY\7.NET C SHARP\CAD_API\AutoCAD_Utilities\FindReferTitleID\obj\Debug\FindReferTitleID.g.resources
+D:\HUY\7.NET C SHARP\CAD_API\AutoCAD_Utilities\FindReferTitleID\obj\Debug\FindReferTitleID.AutoReferWindow.resources
+D:\HUY\7.NET C SHARP\CAD_API\AutoCAD_Utilities\FindReferTitleID\obj\Debug\FindReferTitleID.csproj.GenerateResource.cache

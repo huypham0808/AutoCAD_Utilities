@@ -1,37 +1,32 @@
 ﻿using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
-using Autodesk.AutoCAD.Geometry;
-using Autodesk.AutoCAD.Internal;
-using Autodesk.AutoCAD.Runtime;
-using Autodesk.AutoCAD.Windows;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Forms;
-using Application = Autodesk.AutoCAD.ApplicationServices.Application;
 using AttributeCollection = Autodesk.AutoCAD.DatabaseServices.AttributeCollection;
 
 namespace FindReferTitleID
 {
-    public class FindRefer
+    public partial class AutoReferWindow : Form
     {
-        static PaletteSet palette;
-        static bool wasVisible;
-        private class BlockData
+        public AutoReferWindow()
         {
-            public ObjectId ObjectId { get; set; }
-            public Point2d Position { get; set; }
+            InitializeComponent();
+            TopMost = true;
         }
 
-        private static List<BlockData> blockDataList = new List<BlockData>();
-        private static ListView listView;
-
-        [CommandMethod("CSS_AutoRefer")]
+        private void btnTitleID2Sheet_Click(object sender, EventArgs e)
+        {
+            CSS_FindRefer();
+        }
         public void CSS_FindRefer()
         {
             Document currentDocument = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
@@ -63,6 +58,7 @@ namespace FindReferTitleID
             string mTextObjectId = mTextObjectIdOrigin.ToString();
             mTextObjectId = mTextObjectId.Replace("(", "").Replace(")", "");
             // Start the transaction
+            using (DocumentLock docLock = currentDocument.LockDocument())
             using (Transaction transaction = currentDatabase.TransactionManager.StartTransaction())
             {
                 // Open the block reference and its attribute collection
@@ -77,82 +73,23 @@ namespace FindReferTitleID
                     {
                         // Create the field expression
                         string fieldExpression = "%<\\AcObjProp Object(%<\\_ObjId " + mTextObjectId.ToString() + ">%).TextString>%";
+
                         using (AttributeReference attributeToModify = transaction.GetObject(attributeId, OpenMode.ForWrite) as AttributeReference)
                         {
-                            if (attributeToModify.Tag == "S1") 
+                            if (attribute.Tag == "S1")
                             {
-                                attribute.UpgradeOpen();
+                                attributeToModify.UpgradeOpen();
                                 attributeToModify.TextString = fieldExpression;
-                                attribute.DowngradeOpen();
-                            }                         
+                                attributeToModify.DowngradeOpen();
+                            }
                         }
                     }
-                }              
+                }
                 editor.Regen();
                 editor.WriteMessage("Done");
                 transaction.Commit();
-            }        
-        }
-        //Show Table display List Data
-        [CommandMethod("CSS_ShowFindRefer")]
-        public static void ShowFindRefe ()
-        {
-            Document currentDocument = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-            Database currentDatabase = currentDocument.Database;
-            Editor editor = currentDocument.Editor;
-            //Show List Data
-            if (blockDataList.Count > 0)
-            {
-                if (listView == null || listView.IsDisposed)
-                    CreateListViewForm();
-            }
-            else
-            {
-                editor.WriteMessage("\nNo TitleID found.");
             }
         }
-        private static void CreateListViewForm()
-        {
-            Form form = new Form();
-            form.Text = "Block Data List";
-            form.Size = new System.Drawing.Size(400, 300);
-
-            listView = new ListView();
-            listView.Dock = DockStyle.Fill;
-            listView.View = View.Details;
-            listView.Columns.Add("Object ID", 200);
-            listView.Columns.Add("Position X", 100);
-            listView.Columns.Add("Position Y", 100);
-
-            form.Controls.Add(listView);
-
-            form.FormClosing += (sender, e) =>
-            {
-                listView = null;
-                blockDataList.Clear();
-            };
-
-            form.Show();
-        }
-        private static void RefreshListView()
-        {
-            //listView.Items.Clear();
-
-            foreach (BlockData blockData in blockDataList)
-            {
-                ListViewItem item = new ListViewItem(blockData.ObjectId.ToString());
-                item.SubItems.Add(blockData.Position.X.ToString());
-                item.SubItems.Add(blockData.Position.Y.ToString());
-
-                listView.Items.Add(item);
-            }
-
-            ListViewItem lastItem = listView.Items.Count > 0 ? listView.Items[listView.Items.Count - 1] : null;
-            if (lastItem != null)
-                lastItem.EnsureVisible();
-        }
-
-        [CommandMethod("CSS_SmartRefer1")]
         public void SmartRefer()
         {
             Document currentDocument = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
@@ -249,41 +186,10 @@ namespace FindReferTitleID
                 tr.Commit();
             }
         }
-        [CommandMethod("CSS_SmartReferPalette")]
-        public void CallFormSmartRefer2()
-        {
-            if (palette == null)
-            {
-                palette = new PaletteSet("CSS SMART REFER", "CSS_SMARTREFER", new Guid("{3C23279E-18B9-4920-BA41-ECE7BCD0119F}"));
-                palette.Style = PaletteSetStyles.ShowAutoHideButton |
-                                PaletteSetStyles.ShowCloseButton |
-                                PaletteSetStyles.ShowPropertiesMenu;
 
-                palette.Size = new System.Drawing.Size(130, 200);
-                
-                palette.AddVisual("Tab 1", new mainForm());
-
-                var docs = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager;
-                docs.DocumentBecameCurrent += (s, e) => palette.Visible = e.Document == null ? false : wasVisible;
-                docs.DocumentCreated += (s, e) => palette.Visible = wasVisible;
-                docs.DocumentToBeDeactivated += (s, e) => wasVisible = palette.Visible;
-                docs.DocumentToBeDestroyed += (s, e) =>
-                {
-                    wasVisible = palette.Visible;
-                    if (docs.Count == 1)
-                        palette.Visible = false;
-                };
-            }
-            
-            palette.Visible = true;
-            palette.DockEnabled = DockSides.None;
-            palette.RolledUp = false;
-        }
-        [CommandMethod("CSS_SmartRefer")]
-        public void CallFormAutoRefer()
+        private void btnSection2TitileID_Click(object sender, EventArgs e)
         {
-            AutoReferWindow autoReferWindow = new AutoReferWindow();
-            Application.ShowModelessDialog(autoReferWindow);
+            SmartRefer();
         }
     }
 }
