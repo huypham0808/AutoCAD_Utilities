@@ -185,7 +185,7 @@ namespace FindReferTitleID
         }
         private void btnReferCallout_Click(object sender, RoutedEventArgs e)
         {
-
+            GetMLeaderMTextContent();
         }
         private void MultipleTitleIDSheet()
         {
@@ -448,7 +448,7 @@ namespace FindReferTitleID
 
                 string fieldExpressionTag1 = "%<\\AcObjProp Object(%<\\_ObjId " + tag1IdConvert.ToString() + ">%).TextString>%";
                 string fieldExpressionTagS = "%<\\AcObjProp Object(%<\\_ObjId " + tagS1IdConvert.ToString() + ">%).TextString>%";
-                MLeader mLeader = tr.GetObject(per.ObjectId, OpenMode.ForRead) as MLeader;
+                MLeader mLeader = tr.GetObject(per.ObjectId, OpenMode.ForWrite) as MLeader;
 
                 if (mLeader != null && mLeader.ContentType == ContentType.MTextContent)
                 {
@@ -456,10 +456,20 @@ namespace FindReferTitleID
                     if (mtext != null)
                     {
                         string content = mtext.Text;
+                        string newContent = content;
                         //Xu ly content 
-
+                        string marker = "SEE DETAIL";
+                        if (content.Contains(marker))
+                        {
+                            // Xóa phần A/B, thay bằng fieldExpressionTag1/fieldExpressionTagS
+                            int index = content.IndexOf(marker, StringComparison.OrdinalIgnoreCase);
+                            newContent = content.Substring(0, index + marker.Length).Trim()
+                                         + " " + fieldExpressionTag1 + "/" + fieldExpressionTagS;
+                            mtext.Contents = newContent;
+                            mLeader.MText = mtext;
+                        }                                
                         //Assign content cho mtex
-                        ed.WriteMessage($"\nMLeader content:\n{content}");
+                        ed.WriteMessage($"\nMLeader content:\n{content}");                     
                     }
                     else
                     {
@@ -471,6 +481,7 @@ namespace FindReferTitleID
                     ed.WriteMessage("\nSelected FRP Callout does not contain MText content.");
                 }
                 tr.Commit();
+                ed.Regen();
             }
         }
     }
