@@ -179,9 +179,9 @@ namespace FindReferTitleID
                 }
                 tr.Commit();
             }
-            blockIDResult = FindBlockReference(currentDatabase, "Title ID1", valueTag1, valueTagS1);
+            blockIDResult = FindBlockReference(currentDatabase, "Title ID2", valueTag1, valueTagS1);
             ZoomHighlight(blockIDResult);
-            SelectObjectById(editor, blockIDResult);
+            //SelectObjectById(editor, blockIDResult);
         }
         private void btnReferCallout_Click(object sender, RoutedEventArgs e)
         {
@@ -290,7 +290,7 @@ namespace FindReferTitleID
                         double height = maxPoint.Y - minPoint.Y;
                         double width = maxPoint.X - minPoint.X;
                         var cview = editor.GetCurrentView();
-                        editor.WriteMessage("\n Chiều cao của view trước zoom: " + cview.Height);
+                        //editor.WriteMessage("\n Chiều cao của view trước zoom: " + cview.Height);
                         // Tính tỷ lệ khung hình của viewport hiện tại
                         double aspectRatio = cview.Width / cview.Height;
 
@@ -309,7 +309,7 @@ namespace FindReferTitleID
                         // Thiết lập view cho editor
                         editor.SetCurrentView(cview);
                         ent.Highlight();
-                        editor.WriteMessage("\n Chiều cao của view sau zoom: " + cview.Height);
+                        //editor.WriteMessage("\n Chiều cao của view sau zoom: " + cview.Height);
                     }
                     else
                     {
@@ -320,7 +320,7 @@ namespace FindReferTitleID
                 }
                 catch (System.Exception ex)
                 {
-                    editor.WriteMessage($"\nLỗi: {ex.Message}");
+                    editor.WriteMessage($"\nLỗi Zoom: {ex.Message}");
                 }
             }
         }

@@ -5,11 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:FindReferTitleID"
              mc:Ignorable="d"
-             FontSize="14"
-             MaxHeight="300"
-             MinHeight="300"
+             FontSize="16"
+             MaxHeight="200"
+             MinHeight="200"
              MaxWidth="270"
              MinWidth="270"
+             
              Background="#3B4453">
     <!--Width="130"
              Height="200"sfs-->
@@ -68,18 +69,20 @@
         </Grid.RowDefinitions>
         <Button Grid.Row="0"
                 HorizontalAlignment="Stretch"
-                Content="TitleID-Sheet"
+                Content="TitleID ---> Sheet"
                 Height="50"
                 Margin="5,10,5,0"
                 Background="Green"
+                FontWeight="Bold"
                 x:Name="btnTileIDSheet"
                 Click="btnbtnTileIDSheet_Click" />
         <Button  Grid.Row="1"
                  HorizontalAlignment="Stretch"
-                 Content="Section-TitleID"
+                 Content="Section ---> TitleID"
                  Height="50"
                  Margin="5,10,5,0"
                  Background="Red"
+                 FontWeight="Bold"
                  x:Name="btnSectionTileID"
                  Click="btnSectionTileID_Click" />
         <Button  Grid.Row="2"
@@ -87,19 +90,21 @@
                  Content="Find TitleID"
                  Height="50"
                  Margin="5,10,5,0"
-                 Background="Yellow"
+                 Background="Gray"
                  Foreground="Black"
                  x:Name="btnFindTitleID"
-                 Click="btnbtnFindTitleID_Click" />
+                 Click="btnbtnFindTitleID_Click"
+                 IsEnabled="False"
+                 Visibility="Collapsed" />
         <Button  Grid.Row="3"
                  HorizontalAlignment="Stretch"
                  Content="Callout-Tile ID1"
                  FontWeight="Bold"
                  Height="50"
                  Margin="5,10,5,0"
-                 Background="Orange"
+                 Background="Gray"
                  Foreground="Black"
                  x:Name="btnRefeCallout"
-                 Click="btnReferCallout_Click" />
+                 Click="btnReferCallout_Click" IsEnabled="False" Visibility="Collapsed" />
     </Grid>
 </UserControl>

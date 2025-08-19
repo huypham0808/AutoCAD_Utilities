@@ -9,4 +9,8 @@
     <StartAction>Program</StartAction>
     <StartArguments>"Template\TestLib1.dwg"</StartArguments>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <StartAction>Program</StartAction>
+    <StartProgram>C:\Program Files\Autodesk\AutoCAD 2021\acad.exe</StartProgram>
+  </PropertyGroup>
 </Project>
