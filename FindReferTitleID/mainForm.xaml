@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:FindReferTitleID"
              mc:Ignorable="d"
              FontSize="16"
-             MaxHeight="200"
-             MinHeight="200"
+             MaxHeight="250"
+             MinHeight="250"
              MaxWidth="270"
              MinWidth="270"
              
@@ -90,21 +90,21 @@
                  Content="Find TitleID"
                  Height="50"
                  Margin="5,10,5,0"
-                 Background="Gray"
+                 Background="Cyan"
                  Foreground="Black"
+                 FontWeight="Bold"
                  x:Name="btnFindTitleID"
                  Click="btnbtnFindTitleID_Click"
-                 IsEnabled="False"
                  Visibility="Collapsed" />
         <Button  Grid.Row="3"
                  HorizontalAlignment="Stretch"
-                 Content="Callout-Tile ID1"
+                 Content="Callout --> Tile ID1"
                  FontWeight="Bold"
                  Height="50"
                  Margin="5,10,5,0"
-                 Background="Gray"
+                 Background="Yellow"
                  Foreground="Black"
                  x:Name="btnRefeCallout"
-                 Click="btnReferCallout_Click" IsEnabled="False" Visibility="Collapsed" />
+                 Click="btnReferCallout_Click" />
     </Grid>
 </UserControl>

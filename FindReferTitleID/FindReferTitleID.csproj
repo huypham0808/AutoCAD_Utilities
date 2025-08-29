@@ -78,16 +78,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutoReferWindow.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AutoReferWindow.Designer.cs">
-      <DependentUpon>AutoReferWindow.cs</DependentUpon>
-    </Compile>
     <Compile Include="FindRefer.cs" />
     <Compile Include="mainForm.xaml.cs">
       <DependentUpon>mainForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MethodUtilities\ReferMethod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -101,10 +96,8 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="AutoReferWindow.resx">
-      <DependentUpon>AutoReferWindow.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(TargetDir)"."" "C:\FRP-ST-SST-Plugin\NetAPITools\SmartRefer\"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

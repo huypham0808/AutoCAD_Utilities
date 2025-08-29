@@ -1,31 +1,23 @@
 ﻿using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.Runtime;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Windows.Forms;
-using AttributeCollection = Autodesk.AutoCAD.DatabaseServices.AttributeCollection;
 
-namespace FindReferTitleID
+namespace FindReferTitleID.MethodUtilities
 {
-    public partial class AutoReferWindow : Form
+    internal class ReferMethod
     {
-        public AutoReferWindow()
+        private class BlockData
         {
-            InitializeComponent();
-            TopMost = true;
-        }
-
-        private void btnTitleID2Sheet_Click(object sender, EventArgs e)
-        {
-            CSS_FindRefer();
+            public ObjectId ObjectId { get; set; }
+            public Point2d Position { get; set; }
         }
         public void CSS_FindRefer()
         {
@@ -58,7 +50,6 @@ namespace FindReferTitleID
             string mTextObjectId = mTextObjectIdOrigin.ToString();
             mTextObjectId = mTextObjectId.Replace("(", "").Replace(")", "");
             // Start the transaction
-            using (DocumentLock docLock = currentDocument.LockDocument())
             using (Transaction transaction = currentDatabase.TransactionManager.StartTransaction())
             {
                 // Open the block reference and its attribute collection
@@ -73,14 +64,13 @@ namespace FindReferTitleID
                     {
                         // Create the field expression
                         string fieldExpression = "%<\\AcObjProp Object(%<\\_ObjId " + mTextObjectId.ToString() + ">%).TextString>%";
-
                         using (AttributeReference attributeToModify = transaction.GetObject(attributeId, OpenMode.ForWrite) as AttributeReference)
                         {
-                            if (attribute.Tag == "S1")
+                            if (attributeToModify.Tag == "S1")
                             {
-                                attributeToModify.UpgradeOpen();
+                                attribute.UpgradeOpen();
                                 attributeToModify.TextString = fieldExpression;
-                                attributeToModify.DowngradeOpen();
+                                attribute.DowngradeOpen();
                             }
                         }
                     }
@@ -88,6 +78,25 @@ namespace FindReferTitleID
                 editor.Regen();
                 editor.WriteMessage("Done");
                 transaction.Commit();
+            }
+        }
+        private static List<BlockData> blockDataList = new List<BlockData>();
+        private static ListView listView;
+
+        public static void ShowFindRefe()
+        {
+            Document currentDocument = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Database currentDatabase = currentDocument.Database;
+            Editor editor = currentDocument.Editor;
+            //Show List Data
+            if (blockDataList.Count > 0)
+            {
+                if (listView == null || listView.IsDisposed) { }
+                //CreateListViewForm();
+            }
+            else
+            {
+                editor.WriteMessage("\nNo TitleID found.");
             }
         }
         public void SmartRefer()
@@ -185,11 +194,6 @@ namespace FindReferTitleID
                 editor.WriteMessage("Refer successfully");
                 tr.Commit();
             }
-        }
-
-        private void btnSection2TitileID_Click(object sender, EventArgs e)
-        {
-            SmartRefer();
         }
     }
 }

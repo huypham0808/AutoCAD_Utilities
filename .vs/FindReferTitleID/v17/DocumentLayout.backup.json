@@ -1,22 +1,24 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\HUY\\7.NET C SHARP\\CAD_API\\AutoCAD_Utilities\\",
+  "WorkspaceRootPath": "D:\\4.PERSONAL\\5.CODING\\18.CAD_Tool\\SmartRefer\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E8936EA9-D2A8-45B1-B2B8-651240B3AA8A}|FindReferTitleID\\FindReferTitleID.csproj|d:\\huy\\7.net c sharp\\cad_api\\autocad_utilities\\findrefertitleid\\mainform.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E8936EA9-D2A8-45B1-B2B8-651240B3AA8A}|FindReferTitleID\\FindReferTitleID.csproj|D:\\4.PERSONAL\\5.CODING\\18.CAD_Tool\\SmartRefer\\findrefertitleid\\mainform.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E8936EA9-D2A8-45B1-B2B8-651240B3AA8A}|FindReferTitleID\\FindReferTitleID.csproj|solutionrelative:findrefertitleid\\mainform.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E8936EA9-D2A8-45B1-B2B8-651240B3AA8A}|FindReferTitleID\\FindReferTitleID.csproj|D:\\HUY\\7.NET C SHARP\\CAD_API\\AutoCAD_Utilities\\findrefertitleid\\mainform.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|FindReferTitleID||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E8936EA9-D2A8-45B1-B2B8-651240B3AA8A}|FindReferTitleID\\FindReferTitleID.csproj|d:\\4.personal\\5.coding\\18.cad_tool\\smartrefer\\findrefertitleid\\mainform.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{E8936EA9-D2A8-45B1-B2B8-651240B3AA8A}|FindReferTitleID\\FindReferTitleID.csproj|solutionrelative:findrefertitleid\\mainform.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E8936EA9-D2A8-45B1-B2B8-651240B3AA8A}|FindReferTitleID\\FindReferTitleID.csproj|D:\\HUY\\7.NET C SHARP\\CAD_API\\AutoCAD_Utilities\\findrefertitleid\\findrefer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E8936EA9-D2A8-45B1-B2B8-651240B3AA8A}|FindReferTitleID\\FindReferTitleID.csproj|D:\\4.PERSONAL\\5.CODING\\18.CAD_Tool\\SmartRefer\\findrefertitleid\\findrefer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E8936EA9-D2A8-45B1-B2B8-651240B3AA8A}|FindReferTitleID\\FindReferTitleID.csproj|solutionrelative:findrefertitleid\\findrefer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E8936EA9-D2A8-45B1-B2B8-651240B3AA8A}|FindReferTitleID\\FindReferTitleID.csproj|D:\\HUY\\7.NET C SHARP\\CAD_API\\AutoCAD_Utilities\\findrefertitleid\\autoreferwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E8936EA9-D2A8-45B1-B2B8-651240B3AA8A}|FindReferTitleID\\FindReferTitleID.csproj|solutionrelative:findrefertitleid\\autoreferwindow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E8936EA9-D2A8-45B1-B2B8-651240B3AA8A}|FindReferTitleID\\FindReferTitleID.csproj|d:\\4.personal\\5.coding\\18.cad_tool\\smartrefer\\findrefertitleid\\||{B270807C-D8C6-49EB-8EBE-8E8D566637A1}|1e78f8db-6c07-4d61-a18f-7514010abd56"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,7 +28,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -50,49 +52,50 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "AutoReferWindow.cs",
-              "DocumentMoniker": "D:\\HUY\\7.NET C SHARP\\CAD_API\\AutoCAD_Utilities\\FindReferTitleID\\AutoReferWindow.cs",
-              "RelativeDocumentMoniker": "FindReferTitleID\\AutoReferWindow.cs",
-              "ToolTip": "D:\\HUY\\7.NET C SHARP\\CAD_API\\AutoCAD_Utilities\\FindReferTitleID\\AutoReferWindow.cs",
-              "RelativeToolTip": "FindReferTitleID\\AutoReferWindow.cs",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAqwDwAAABJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-17T06:54:16.735Z"
+              "DocumentIndex": 1,
+              "Title": "FindReferTitleID",
+              "DocumentMoniker": "D:\\4.PERSONAL\\5.CODING\\18.CAD_Tool\\SmartRefer\\FindReferTitleID\\FindReferTitleID.csproj",
+              "RelativeDocumentMoniker": "FindReferTitleID\\FindReferTitleID.csproj",
+              "ToolTip": "D:\\4.PERSONAL\\5.CODING\\18.CAD_Tool\\SmartRefer\\FindReferTitleID\\FindReferTitleID.csproj",
+              "RelativeToolTip": "FindReferTitleID\\FindReferTitleID.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-08-21T10:20:27.552Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "mainForm.xaml",
+              "DocumentMoniker": "D:\\4.PERSONAL\\5.CODING\\18.CAD_Tool\\SmartRefer\\FindReferTitleID\\mainForm.xaml",
+              "RelativeDocumentMoniker": "FindReferTitleID\\mainForm.xaml",
+              "ToolTip": "D:\\4.PERSONAL\\5.CODING\\18.CAD_Tool\\SmartRefer\\FindReferTitleID\\mainForm.xaml",
+              "RelativeToolTip": "FindReferTitleID\\mainForm.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-08-21T03:09:09.503Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "mainForm.xaml.cs",
-              "DocumentMoniker": "D:\\HUY\\7.NET C SHARP\\CAD_API\\AutoCAD_Utilities\\FindReferTitleID\\mainForm.xaml.cs",
+              "DocumentMoniker": "D:\\4.PERSONAL\\5.CODING\\18.CAD_Tool\\SmartRefer\\FindReferTitleID\\mainForm.xaml.cs",
               "RelativeDocumentMoniker": "FindReferTitleID\\mainForm.xaml.cs",
-              "ToolTip": "D:\\HUY\\7.NET C SHARP\\CAD_API\\AutoCAD_Utilities\\FindReferTitleID\\mainForm.xaml.cs*",
-              "RelativeToolTip": "FindReferTitleID\\mainForm.xaml.cs*",
-              "ViewState": "AgIAANEBAAAAAAAAAAAmwOMBAAAbAAAAAAAAAA==",
+              "ToolTip": "D:\\4.PERSONAL\\5.CODING\\18.CAD_Tool\\SmartRefer\\FindReferTitleID\\mainForm.xaml.cs",
+              "RelativeToolTip": "FindReferTitleID\\mainForm.xaml.cs",
+              "ViewState": "AgIAALUBAAAAAAAAAAAAAMkBAABXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-15T15:07:30.669Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "mainForm.xaml",
-              "DocumentMoniker": "D:\\HUY\\7.NET C SHARP\\CAD_API\\AutoCAD_Utilities\\FindReferTitleID\\mainForm.xaml",
-              "RelativeDocumentMoniker": "FindReferTitleID\\mainForm.xaml",
-              "ToolTip": "D:\\HUY\\7.NET C SHARP\\CAD_API\\AutoCAD_Utilities\\FindReferTitleID\\mainForm.xaml",
-              "RelativeToolTip": "FindReferTitleID\\mainForm.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-08-15T14:58:09.572Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "FindRefer.cs",
-              "DocumentMoniker": "D:\\HUY\\7.NET C SHARP\\CAD_API\\AutoCAD_Utilities\\FindReferTitleID\\FindRefer.cs",
+              "DocumentMoniker": "D:\\4.PERSONAL\\5.CODING\\18.CAD_Tool\\SmartRefer\\FindReferTitleID\\FindRefer.cs",
               "RelativeDocumentMoniker": "FindReferTitleID\\FindRefer.cs",
-              "ToolTip": "D:\\HUY\\7.NET C SHARP\\CAD_API\\AutoCAD_Utilities\\FindReferTitleID\\FindRefer.cs",
+              "ToolTip": "D:\\4.PERSONAL\\5.CODING\\18.CAD_Tool\\SmartRefer\\FindReferTitleID\\FindRefer.cs",
               "RelativeToolTip": "FindReferTitleID\\FindRefer.cs",
-              "ViewState": "AgIAAA0BAAAAAAAAAAAowAUBAAA6AAAAAAAAAA==",
+              "ViewState": "AgIAABwAAAAAAAAAAAAgwCQAAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-14T13:46:09.946Z"
             }

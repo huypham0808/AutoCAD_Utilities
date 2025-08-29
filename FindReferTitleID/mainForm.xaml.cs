@@ -447,7 +447,12 @@ namespace FindReferTitleID
                 tagS1IdConvert = tagS1IdConvert.Replace("(", "").Replace(")", "");
 
                 string fieldExpressionTag1 = "%<\\AcObjProp Object(%<\\_ObjId " + tag1IdConvert.ToString() + ">%).TextString>%";
+                string fieldExpressionTag1Format = $"{{\\C1;\\b1{fieldExpressionTag1}}}";
+
                 string fieldExpressionTagS = "%<\\AcObjProp Object(%<\\_ObjId " + tagS1IdConvert.ToString() + ">%).TextString>%";
+                string fieldExpressionTagSFormat = $"{{\\C1;\\b1{fieldExpressionTagS}}}";
+
+
                 MLeader mLeader = tr.GetObject(per.ObjectId, OpenMode.ForWrite) as MLeader;
 
                 if (mLeader != null && mLeader.ContentType == ContentType.MTextContent)
@@ -458,16 +463,34 @@ namespace FindReferTitleID
                         string content = mtext.Text;
                         string newContent = content;
                         //Xu ly content 
-                        string marker = "SEE DETAIL";
-                        if (content.Contains(marker))
+                        string markerDetail = "SEE DETAIL";
+                        string markerSheet = "SEE SHEET";
+
+                        if (content.Contains(markerDetail))
                         {
                             // Xóa phần A/B, thay bằng fieldExpressionTag1/fieldExpressionTagS
-                            int index = content.IndexOf(marker, StringComparison.OrdinalIgnoreCase);
-                            newContent = content.Substring(0, index + marker.Length).Trim()
-                                         + " " + fieldExpressionTag1 + "/" + fieldExpressionTagS;
+
+                            //int index = content.IndexOf(markerDetail, StringComparison.OrdinalIgnoreCase);
+                            //string safePlainText = EscapeMTextString(content.Substring(0, index + markerDetail.Length).Trim());
+                            //newContent = content.Substring(0, index + markerDetail.Length).Trim()
+                            //             + " " + fieldExpressionTag1Format + "/" + fieldExpressionTagSFormat;
+                            //mtext.Contents = newContent;
+                            //mLeader.MText = mtext;
+                            int index = content.IndexOf(markerDetail, StringComparison.OrdinalIgnoreCase);
+                            string safePlainText = EscapeMTextString(content.Substring(0, index + markerDetail.Length).Trim());
+                            newContent = safePlainText + " " + fieldExpressionTag1Format + "/" + fieldExpressionTagSFormat;
                             mtext.Contents = newContent;
                             mLeader.MText = mtext;
-                        }                                
+                        }
+                        else
+                        {
+                            // Xóa phần A/B, thay bằng fieldExpressionTag1/fieldExpressionTagS
+                            int index = content.IndexOf(markerSheet, StringComparison.OrdinalIgnoreCase);
+                            string safePlainText = EscapeMTextString(content.Substring(0, index + markerDetail.Length).Trim());
+                            newContent = safePlainText + " " + fieldExpressionTag1Format + "/" + fieldExpressionTagSFormat;
+                            mtext.Contents = newContent;
+                            mLeader.MText = mtext;
+                        }
                         //Assign content cho mtex
                         ed.WriteMessage($"\nMLeader content:\n{content}");                     
                     }
@@ -483,6 +506,16 @@ namespace FindReferTitleID
                 tr.Commit();
                 ed.Regen();
             }
+        }
+        private string EscapeMTextString(string input)
+        {
+            if (string.IsNullOrEmpty(input)) return string.Empty;
+
+            return input
+                .Replace("\\", "\\\\")   // escape backslash
+                .Replace("{", "\\{")     // escape brace
+                .Replace("}", "\\}")
+                .Replace(";", "\\;");    // escape semicolon
         }
     }
 }

@@ -30,8 +30,7 @@ D:\4.PERSONAL\5.CODING\18.CAD_Tool\SmartRefer\FindReferTitleID\obj\Debug\FindRef
 D:\4.PERSONAL\5.CODING\18.CAD_Tool\SmartRefer\FindReferTitleID\obj\Debug\FindReferTitleID_MarkupCompile.lref
 D:\4.PERSONAL\5.CODING\18.CAD_Tool\SmartRefer\FindReferTitleID\obj\Debug\mainForm.baml
 D:\4.PERSONAL\5.CODING\18.CAD_Tool\SmartRefer\FindReferTitleID\obj\Debug\FindReferTitleID.g.resources
-D:\4.PERSONAL\5.CODING\18.CAD_Tool\SmartRefer\FindReferTitleID\obj\Debug\FindReferTitleID.AutoReferWindow.resources
-D:\4.PERSONAL\5.CODING\18.CAD_Tool\SmartRefer\FindReferTitleID\obj\Debug\FindReferTitleID.csproj.GenerateResource.cache
 D:\4.PERSONAL\5.CODING\18.CAD_Tool\SmartRefer\FindReferTitleID\obj\Debug\FindReferTitleID.csproj.CoreCompileInputs.cache
 D:\4.PERSONAL\5.CODING\18.CAD_Tool\SmartRefer\FindReferTitleID\obj\Debug\FindReferTitleID.dll
 D:\4.PERSONAL\5.CODING\18.CAD_Tool\SmartRefer\FindReferTitleID\obj\Debug\FindReferTitleID.pdb
+D:\4.PERSONAL\5.CODING\18.CAD_Tool\SmartRefer\FindReferTitleID\obj\Debug\FindReferTitleID.csproj.AssemblyReference.cache
