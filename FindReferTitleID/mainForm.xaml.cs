@@ -40,7 +40,7 @@ namespace FindReferTitleID
             Database currentDatabase = currentDocument.Database;
             Editor editor = currentDocument.Editor;
 
-            // Prompt the user to select the TitleID block 1
+            // Prompt the user to select the Section_IDN1 block 1
             PromptEntityOptions blockSection = new PromptEntityOptions("\nSelect the block Section_IDN1: ");
             blockSection.SetRejectMessage("\nInvalid Block selection. Please select a block Section_IDN1.");
             blockSection.AddAllowedClass(typeof(BlockReference), false);
@@ -55,7 +55,7 @@ namespace FindReferTitleID
             blockTitleID1.AddAllowedClass(typeof(BlockReference), false);
 
             PromptEntityResult blockTitleID1Result = editor.GetEntity(blockTitleID1);
-            if (blockSectionResult.Status != PromptStatus.OK)
+            if (blockTitleID1Result.Status != PromptStatus.OK)
                 return;
 
             ObjectId blockTitleID1Id = blockTitleID1Result.ObjectId;
@@ -133,56 +133,102 @@ namespace FindReferTitleID
             }
         }
 
-        private void btnbtnFindTitleID_Click(object sender, RoutedEventArgs e)
+        private void btnTextNoteTitleID_Click(object sender, RoutedEventArgs e)
         {
-            Document currentDocument = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-            Database currentDatabase = currentDocument.Database;
-            Editor editor = currentDocument.Editor;
+            ReferTitleID2TextNote();
+        }
+        //Refer text note, legends to TitleID
+        private void ReferTitleID2TextNote()
+        {
+            Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Editor ed = doc.Editor;
+            Database db = doc.Database;
 
-            // Prompt the user to select the TitleID block 1
-            PromptEntityOptions blockSection = new PromptEntityOptions("\nSelect the block Section_IDN1: ");
-            blockSection.SetRejectMessage("\nInvalid Block selection. Please select a block Section_IDN1.");
-            blockSection.AddAllowedClass(typeof(BlockReference), false);
+            // Prompt chỉ chọn Mtext
+            PromptEntityOptions peo = new PromptEntityOptions("\nSelect Text/Notes/Legends: ");
+            peo.SetRejectMessage("\nInvalid selection. Please select Text/Notes/Legends only.");
+            peo.AddAllowedClass(typeof(MText), false);
 
-            PromptEntityResult blockSectionResult = editor.GetEntity(blockSection);
-            if (blockSectionResult.Status != PromptStatus.OK)
-                return;
+            PromptEntityResult per = ed.GetEntity(peo);
+            if (per.Status != PromptStatus.OK) return;
 
-            ObjectId blockSectionId = blockSectionResult.ObjectId;
-            string valueTag1 = string.Empty;
-            string valueTagS1 = string.Empty;
-            ObjectId blockIDResult = ObjectId.Null;
-            using (Transaction tr = currentDatabase.TransactionManager.StartTransaction())
+            //Yeu cau nguoi dung chon Title ID1.
+            PromptEntityOptions blockTitleID1 = new PromptEntityOptions("\nSelect the block TitleID1: ");
+            blockTitleID1.SetRejectMessage("\nInvalid Block selection. Please select a block TitleID1.");
+            blockTitleID1.AddAllowedClass(typeof(BlockReference), false);
+
+            PromptEntityResult blockTitleID1Result = ed.GetEntity(blockTitleID1);
+            if (blockTitleID1Result.Status != PromptStatus.OK) return;
+
+            ObjectId blockTitleID1Id = blockTitleID1Result.ObjectId;
+
+            using (DocumentLock docLock = doc.LockDocument())
+            using (Transaction tr = db.TransactionManager.StartTransaction())
             {
-                BlockReference br = tr.GetObject(blockSectionId, OpenMode.ForRead) as BlockReference;
-                AttributeCollection blockSectionCollection = br.AttributeCollection;
+                BlockReference br = tr.GetObject(blockTitleID1Id, OpenMode.ForRead) as BlockReference;
+                AttributeCollection blockTitleID1Collection = br.AttributeCollection;
                 if (br == null)
                 {
-                    editor.WriteMessage("\nNot a valid block reference.");
+                    ed.WriteMessage("\nNot a valid block reference.");
                     return;
                 }
-                foreach (ObjectId attId in blockSectionCollection)
+
+                // Bước 3: Duyệt qua các attribute
+                ObjectId tag1Id = ObjectId.Null;
+                ObjectId tagS1Id = ObjectId.Null;
+
+                foreach (ObjectId attId in blockTitleID1Collection)
                 {
                     AttributeReference attRef = tr.GetObject(attId, OpenMode.ForRead) as AttributeReference;
                     if (attRef != null)
                     {
-                        switch (attRef.Tag)
+                        if (attRef.Tag.Equals("1", StringComparison.OrdinalIgnoreCase))
                         {
-                            case "1":
-                                valueTag1 = attRef.TextString;
-                                break;
-                            case "S1":
-                                valueTagS1 = attRef.TextString;
-                                break;
+                            tag1Id = attId;
+                        }
+                        else if (attRef.Tag.Equals("S1", StringComparison.OrdinalIgnoreCase))
+                        {
+                            tagS1Id = attId;
                         }
                     }
                 }
+                string tag1IdConvert = tag1Id.ToString();
+                tag1IdConvert = tag1IdConvert.Replace("(", "").Replace(")", "");
+                string tagS1IdConvert = tagS1Id.ToString();
+                tagS1IdConvert = tagS1IdConvert.Replace("(", "").Replace(")", "");
+
+                string fieldExpressionTag1 = "%<\\AcObjProp Object(%<\\_ObjId " + tag1IdConvert.ToString() + ">%).TextString>%";
+                string fieldExpressionTag1Format = $"{{\\C1;\\b1{fieldExpressionTag1}}}";
+
+                string fieldExpressionTagS = "%<\\AcObjProp Object(%<\\_ObjId " + tagS1IdConvert.ToString() + ">%).TextString>%";
+                string fieldExpressionTagSFormat = $"{{\\C1;\\b1{fieldExpressionTagS}}}";
+
+                MText mTextNote = tr.GetObject(per.ObjectId, OpenMode.ForWrite) as MText;
+                if (mTextNote != null)
+                {
+                    string contentSource = mTextNote.Contents;
+
+                    string markerDetail = "SEE DETAIL";
+                    int index = contentSource.IndexOf(markerDetail, StringComparison.OrdinalIgnoreCase);
+                    string newContent;
+                    if (index >= 0) 
+                    {
+                        string safePlainText = EscapeMTextString(contentSource.Substring(0, index + markerDetail.Length).Trim());
+                        newContent = safePlainText + " " + fieldExpressionTag1Format + "/" + fieldExpressionTagSFormat;
+                    }
+                    else
+                    {
+                        // Nếu không tìm thấy marker, nối field vào cuối
+                        string safePlainText = EscapeMTextString(contentSource);
+                        newContent = safePlainText + " " + fieldExpressionTag1Format + "/" + fieldExpressionTagSFormat;
+                    }
+                    mTextNote.Contents = newContent;
+                }
                 tr.Commit();
+                ed.Regen();
             }
-            blockIDResult = FindBlockReference(currentDatabase, "Title ID2", valueTag1, valueTagS1);
-            ZoomHighlight(blockIDResult);
-            //SelectObjectById(editor, blockIDResult);
         }
+
         private void btnReferCallout_Click(object sender, RoutedEventArgs e)
         {
             GetMLeaderMTextContent();
@@ -195,7 +241,7 @@ namespace FindReferTitleID
 
             // Prompt the user to select multiple block references
             PromptSelectionOptions selOptions = new PromptSelectionOptions();
-            selOptions.MessageForAdding = "\nSelect block references: ";
+            selOptions.MessageForAdding = "\nSelect TileIDs: ";
 
             // Filter chỉ chọn BlockReference
             SelectionFilter filter = new SelectionFilter(new TypedValue[]
@@ -406,8 +452,7 @@ namespace FindReferTitleID
             blockTitleID1.AddAllowedClass(typeof(BlockReference), false);
 
             PromptEntityResult blockTitleID1Result = ed.GetEntity(blockTitleID1);
-            if (blockTitleID1Result.Status != PromptStatus.OK)
-                return;
+            if (blockTitleID1Result.Status != PromptStatus.OK) return;
 
             ObjectId blockTitleID1Id = blockTitleID1Result.ObjectId;
 
